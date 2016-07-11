@@ -14,3 +14,18 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
 
 The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+
+## Installation ##
+
+* `git clone https://github.com/dejanr77/demo_blog.git`
+* `cd demo_blog`
+*  Create a database and inform *.env* (create this file as .env.example)
+* `composer install`
+* `php artisan key:generate`
+* `php artisan migrate --seed` to create and populate tables
+*  Inform *config/mail.php* for email sends
+* `php artisan vendor:publish`
+
+## License ##
+
+MIT: [http://anthony.mit-license.org](http://anthony.mit-license.org)

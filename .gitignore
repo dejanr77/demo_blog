@@ -2,7 +2,6 @@
 #############
 /vendor/
 .env
-storage/
 /public/storage
 Homestead.yaml
 Homestead.json
