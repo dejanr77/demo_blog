@@ -19,11 +19,22 @@
                     <a href="{{ route('public.home') }}">Home</a>
                 </li>
                 <li>
+                    <a href="{{ route('public.articles.index') }}">Blog</a>
+                </li>
+                <li>
                     <a href="{{ route('public.about') }}">About</a>
                 </li>
                 <li>
                     <a href="{{ route('public.contact') }}">Contact</a>
                 </li>
+                <!-- Authentication Links -->
+                @if (Auth::guest())
+                    <li><a href="{{ url('/login') }}">Login</a></li>
+                    <li><a href="{{ url('/register') }}">Register</a></li>
+                @else
+                    <li><a href="{{ route('public.articles.create') }}">Add article</a></li>
+                    <li><a href="{{ url('/logout') }}">logout</a></li>
+                @endif
             </ul>
         </div>
         <!-- /.navbar-collapse -->

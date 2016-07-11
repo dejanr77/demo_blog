@@ -11,7 +11,11 @@
 |
 */
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+use App\Models\Article;
+use App\User;
+use Carbon\Carbon;
+
+$factory->define(User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->safeEmail,
@@ -19,3 +23,16 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(Article::class, function (Faker\Generator $faker) {
+    return [
+        'user_id' => factory(User::class)->create()->id,
+        'title' => $faker->sentence(8),
+        'body' => $body = $faker->paragraph(6),
+        'excerpt' => shortenText($body,16),
+        'published_at' => Carbon::now()->subDays(12)->addDays($faker->numberBetween(0,12))
+    ];
+});
+
+
+
