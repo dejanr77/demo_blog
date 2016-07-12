@@ -22,8 +22,12 @@ class ArticleRequest extends Request
      */
     public function rules()
     {
+        $segment = request()->segment(2);
+
+        $unique_title = is_null($segment) ? 'unique:articles': 'unique:articles,title,'.$segment;
+
         return [
-            'title' => 'required|min:3|max:240',
+            'title' => 'required|min:3|max:240|'.$unique_title,
             'excerpt' => 'required|min:3|max:128',
             'body' => 'required',
             'published_at' => 'required|date|date_format:Y-m-d'
