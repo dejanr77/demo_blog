@@ -1,44 +1,10 @@
 <?php
 
-Route::group([
-    'namespace' => 'Frontend',
-    'as' => 'public.'
-], function() {
-    Route::get('/',[
-        'uses' => 'PagesController@home',
-        'as' => 'home'
-    ]);
+require (__DIR__ . '/Routes/public.php');
 
-    Route::resource('articles', 'ArticlesController');
-    Route::get('articles/user/{name}',[
-        'uses' => 'ArticlesController@user',
-        'as' => 'articles.user'
-    ]);
+require (__DIR__ . '/Routes/auth.php');
 
-    Route::get('about',[
-        'uses' => 'PagesController@about',
-        'as' => 'about'
-    ]);
+require (__DIR__ . '/Routes/admin.php');
 
-    Route::get('contact',[
-        'uses' => 'PagesController@contact',
-        'as' => 'contact'
-    ]);
-});
-
-
-Route::auth();
-
-Route::group([
-    'middleware' => 'auth',
-    'prefix' => 'admin',
-    'namespace' => 'Backend',
-    'as' => 'admin.'
-], function(){
-    Route::get('/',[
-        'uses' => 'DashboardController@index',
-        'as' => 'dashboard'
-    ]);
-});
 
 

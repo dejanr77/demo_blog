@@ -23,7 +23,7 @@ class ArticleRequest extends Request
     public function rules()
     {
         return [
-            'title' => 'required|min:3',
+            'title' => 'required|min:3|max:240',
             'excerpt' => 'required|min:3|max:128',
             'body' => 'required',
             'published_at' => 'required|date|date_format:Y-m-d'

@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Article;
+use App\Http\Requests\ArticleRequest;
 use App\Repositories\Articles\ArticleRepositoryInterface;
 use App\User;
-use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
@@ -35,7 +34,7 @@ class ArticlesController extends Controller
      */
     public function index()
     {
-        $articles = $this->articleRepository->with(['user'])->all(6);
+        $articles = $this->articleRepository->with(['user'])->allPublishedArticles(4);
 
         return view('public.articles.index', compact('articles'));
     }
@@ -50,7 +49,7 @@ class ArticlesController extends Controller
     {
         $user = User::where('name', $name)->first();
 
-        $articles = $this->articleRepository->allForUser($user, 6);
+        $articles = $this->articleRepository->allPublishedArticlesForUser($user, 6);
 
         return view('public.articles.user', compact('articles','user'));
     }
@@ -68,12 +67,14 @@ class ArticlesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  ArticleRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ArticleRequest $request)
     {
-        //
+        $this->articleRepository->createByUser('articles',$request->all());
+
+        return redirect()->route('public.articles.index');
     }
 
     /**
@@ -84,7 +85,7 @@ class ArticlesController extends Controller
      */
     public function show($slug)
     {
-        $article = Article::whereSlug($slug)->firstOrFail();
+        $article = $this->articleRepository->findArticleWithSlug($slug);
 
         return view('public.articles.show', compact('article'));
     }
@@ -97,19 +98,23 @@ class ArticlesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $article  = $this->articleRepository->first($id);
+
+        return view('public.articles.edit', compact('article'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  ArticleRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ArticleRequest $request, $id)
     {
-        //
+        $this->articleRepository->update($request->all(),$id);
+
+        return redirect()->route('public.articles.index');
     }
 
     /**
@@ -120,6 +125,8 @@ class ArticlesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->articleRepository->delete($id);
+
+        return redirect()->route('public.articles.index');
     }
 }

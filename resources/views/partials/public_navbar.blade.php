@@ -9,17 +9,14 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="http://startbootstrap.com/">Start Bootstrap</a>
+            <a class="navbar-brand" href="{{ route('public.home') }}">demo_blog.rs</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="{{ route('public.home') }}">Home</a>
-                </li>
-                <li>
-                    <a href="{{ route('public.articles.index') }}">Blog</a>
+                    <a href="{{ route('public.articles.index') }}">Articles</a>
                 </li>
                 <li>
                     <a href="{{ route('public.about') }}">About</a>

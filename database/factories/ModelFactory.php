@@ -30,7 +30,7 @@ $factory->define(Article::class, function (Faker\Generator $faker) {
         'title' => $faker->sentence(8),
         'body' => $body = $faker->paragraph(6),
         'excerpt' => shortenText($body,16),
-        'published_at' => Carbon::now()->subDays(12)->addDays($faker->numberBetween(0,12))
+        'published_at' => Carbon::now()->subDays(6)->addDays($faker->numberBetween(0,12))
     ];
 });
 

@@ -11,7 +11,13 @@
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
                         <h1>{{ $article->title }}</h1>
-                        <p class="post-meta">Posted by <a href="{{ route('public.articles.user',['name' => $article->user->name ]) }}">{{ $article->user->name }}</a> on {{ $article->published_at->format('F j, Y') }}</p>
+                        <p class="post-meta">
+                            Posted by <a href="{{ route('public.articles.user',['name' => $article->user->name ]) }}">{{ $article->user->name }}</a> on {{ $article->published_at->format('F j, Y') }}
+                        </p>
+                        <a class="btn btn-default btn-xs pull-left" href="{{ route('public.articles.edit',['articles' => $article->id]) }}"> <i class="fa fa-edit"></i> Update</a>
+                        {!! Form::open(['method'=>'DELETE','url' => 'articles/'.$article->id,'role' => 'form']) !!}
+                        {!! Form::submit("Delete",['class' => 'btn btn-danger btn-xs pull-left']) !!}
+                        {!! Form::close() !!}
                     </div>
                 </div>
             </div>
