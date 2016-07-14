@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Tag;
 use Illuminate\Database\Seeder;
 
 class ArticlesTableSeeder extends Seeder
@@ -11,6 +12,8 @@ class ArticlesTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Models\Article::class, 30)->create();
+        factory(\App\Models\Article::class, 30)->create()->each(function($article) {
+            $article->tags()->attach(Tag::find(1));
+        });
     }
 }

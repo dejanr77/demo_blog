@@ -67,14 +67,33 @@ class Article extends Model
     }
 
 
-
     /**
-     * A article is owned by a user.
+     * An article is owned by a user.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
     {
         return $this->belongsTo('App\User');
+    }
+
+    /**
+     * Get the tags associated with a given articles.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function tags()
+    {
+        return $this->belongsToMany('App\Models\Tag')->withTimestamps();
+    }
+
+    /**
+     * Get a list of tags associated with the current article.
+     *
+     * @return array
+     */
+    public function getTagListAttribute()
+    {
+        return $this->tags->pluck('id')->all();
     }
 }

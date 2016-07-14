@@ -31,6 +31,15 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    @unless($article->tags->isEmpty())
+                    <h4>Tags:</h4>
+                    <div>
+                        @foreach($article->tags as $tag)
+                            <a href="#">{{ $tag->name }}</a>
+                        @endforeach
+                    </div>
+                    <br/>
+                    @endunless
                     {!! $article->body !!}
                 </div>
             </div>

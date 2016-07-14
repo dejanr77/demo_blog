@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ArticleRequest;
+use App\Models\Article;
 use App\Repositories\Articles\ArticleRepositoryInterface;
 use App\User;
 
@@ -72,7 +73,7 @@ class ArticlesController extends Controller
      */
     public function store(ArticleRequest $request)
     {
-        $this->articleRepository->createByUser('articles',$request->all());
+        $this->createArticle($request);
 
         return redirect()->route('public.articles.index');
     }
@@ -112,7 +113,7 @@ class ArticlesController extends Controller
      */
     public function update(ArticleRequest $request, $id)
     {
-        $this->articleRepository->update($request->all(),$id);
+        $this->updateArticle($request, $id);
 
         return redirect()->route('public.articles.index');
     }
@@ -125,8 +126,61 @@ class ArticlesController extends Controller
      */
     public function destroy($id)
     {
-        $this->articleRepository->delete($id);
+        $this->deleteArticle($id);
 
         return redirect()->route('public.articles.index');
+    }
+
+    /**
+     * Sync up the list of tags in the database.
+     *
+     * @param Article $article
+     * @param array $tags
+     * @internal param ArticleRequest $request
+     */
+    private function syncTags(Article $article, array $tags)
+    {
+        $article->tags()->sync($tags);
+    }
+
+    /**
+     * Save a new article.
+     *
+     * @param ArticleRequest $request
+     * @return mixed
+     */
+    private function createArticle(ArticleRequest $request)
+    {
+        $article = $this->articleRepository->createByUser('articles', $request->all());
+
+        $this->syncTags($article, $request->input('tags'));
+
+        return $article;
+    }
+
+    /**
+     * Update an article.
+     *
+     * @param ArticleRequest $request
+     * @param $id
+     * @return mixed
+     */
+    private function updateArticle(ArticleRequest $request, $id)
+    {
+        $article = $this->articleRepository->update($request->all(), $id);
+
+        $this->syncTags($article, $request->input('tags'));
+
+        return $article;
+    }
+
+    /**
+     * Delete an article
+     *
+     * @param $id
+     */
+    private function deleteArticle($id)
+    {
+        $this->articleRepository->delete($id);
     }
 }
