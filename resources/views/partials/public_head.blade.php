@@ -5,13 +5,12 @@
 <meta name="author" content="">
 
 <title>@yield('title')</title>
-
+@section('style')
 <!-- Bootstrap Core CSS -->
 <link href="{{ url('css/bootstrap.min.css') }}" rel="stylesheet">
-
 <!-- Custom CSS -->
 <link href="{{ url('css/clean-blog.css') }}" rel="stylesheet">
-
+@show
 <!-- Custom Fonts -->
 <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>

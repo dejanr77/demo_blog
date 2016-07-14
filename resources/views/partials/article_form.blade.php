@@ -41,7 +41,7 @@
                 <!-- Body Form Input -->
                 <div class="form-group">
                     {!! Form::label('body','Body: ') !!}
-                    {!! Form::textarea('body',null,['class' => 'form-control', 'rows' => 10]) !!}
+                    {!! Form::textarea('body',null,['class' => 'form-control editor', 'rows' => 10]) !!}
                     @if ($errors->has('body'))
                     <span class="help-block">
                         <strong class="text-danger">{{ $errors->first('body') }}</strong>
