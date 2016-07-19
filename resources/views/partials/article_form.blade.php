@@ -28,10 +28,20 @@
                     </span>
                     @endif
                 </div>
+                <!-- Tags Form Input -->
+                <div class="form-group">
+                    {!! Form::label('tags','Tags: ') !!}
+                    {!! Form::select('tags[]',$tag_list,$article->tag_list,[  'class' => 'form-control selectTags','multiple']) !!}
+                    @if ($errors->has('tags'))
+                        <span class="help-block">
+                            <strong class="text-danger">{{ $errors->first('tags') }}</strong>
+                        </span>
+                    @endif
+                </div>
                 <!-- Body Form Input -->
                 <div class="form-group">
                     {!! Form::label('body','Body: ') !!}
-                    {!! Form::textarea('body',null,['class' => 'form-control', 'rows' => 10]) !!}
+                    {!! Form::textarea('body',null,['class' => 'form-control editor', 'rows' => 10]) !!}
                     @if ($errors->has('body'))
                     <span class="help-block">
                         <strong class="text-danger">{{ $errors->first('body') }}</strong>
