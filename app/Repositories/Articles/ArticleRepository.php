@@ -22,26 +22,23 @@ class ArticleRepository extends Repository implements  ArticleRepositoryInterfac
 
     public function allPublishedArticles($perPage = 8, $columns = array('*'), $pageName = 'page')
     {
-        return $this->model
-            ->where('published_at','<=',Carbon::now())
+        return $this->where(Carbon::now(),'published_at','<=')
             ->orderBy('published_at','dsc')
             ->paginate($perPage, $columns, $pageName);
     }
 
     public function allPublishedArticlesForUser($user, $perPage = 8, $columns = array('*'), $pageName = 'page' )
     {
-        return $this->model
-            ->where('user_id', $user->id)
-            ->where('published_at','<=',Carbon::now())
+        return $this->where($user->id,'user_id' )
+            ->where(Carbon::now(),'published_at','<=')
             ->orderBy('published_at','dsc')
             ->paginate($perPage, $columns, $pageName);
     }
 
     public function findArticleWithSlug($slug)
     {
-        return $this->model
-            ->whereSlug($slug)
-            ->where('published_at','<=',Carbon::now())
-            ->firstOrFail();
+        return $this->whereSlug($slug)
+            ->where(Carbon::now(),'published_at','<=')
+            ->getFirst();
     }
 }

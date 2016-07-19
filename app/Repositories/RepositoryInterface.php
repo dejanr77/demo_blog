@@ -43,7 +43,13 @@ interface RepositoryInterface
      * @param array $columns
      * @return mixed
      */
-    public function all($columns = ['*']);
+    public function getAll($columns = ['*']);
+
+    /**
+     * @param array $columns
+     * @return mixed
+     */
+    public function getFirst($columns = ['*']);
 
     /**
      * @param int $perPage

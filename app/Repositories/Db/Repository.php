@@ -15,9 +15,9 @@ abstract class Repository implements  RepositoryInterface
 
     abstract function makeModel();
 
-    public function where($value, $attribute = 'id')
+    public function where($value, $attribute = 'id', $option = '=')
     {
-        $this->model = $this->model->where($attribute, '=', $value);
+        $this->model = $this->model->where($attribute, $option, $value);
         return $this;
     }
 
@@ -45,9 +45,14 @@ abstract class Repository implements  RepositoryInterface
         return $this;
     }
 
-    public function all($columns = ['*'])
+    public function getAll($columns = ['*'])
     {
         return $this->model->get($columns);
+    }
+
+    public function getFirst($columns = ['*'])
+    {
+        return $this->model->first($columns);
     }
 
     public function paginate($perPage = 25, $columns = ['*'], $pageName = 'page')
