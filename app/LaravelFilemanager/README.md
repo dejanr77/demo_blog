@@ -23,3 +23,8 @@ This local package was developed on the basis of the package 'UniSharp/laravel-f
     ```
 3. `php artisan vendor:publish`
 4. Ensure that the files & images directories (in `config/lfm.php`) are writable by your web server.
+
+## License ##
+
+MIT
+
