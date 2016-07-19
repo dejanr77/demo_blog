@@ -162,6 +162,7 @@ return [
         Cviebrock\EloquentSluggable\ServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
+        App\LaravelFilemanager\LaravelFilemanagerServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
     ],
 
