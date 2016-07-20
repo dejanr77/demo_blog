@@ -88,7 +88,9 @@ class ArticlesController extends Controller
     {
         $article = $this->articleRepository->findArticleWithSlug($slug);
 
-        return view('public.articles.show', compact('article'));
+        $tag_list_with_count = $article->tags()->withCount('articles')->get();
+
+        return view('public.articles.show', compact('article', 'tag_list_with_count'));
     }
 
     /**

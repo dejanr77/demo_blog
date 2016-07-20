@@ -19,16 +19,12 @@ Route::group(array('middleware' => $middlewares, 'prefix' => 'laravel-filemanage
     Route::get('/deletefolder', '\App\LaravelFilemanager\controllers\FolderController@getDeletefolder');
     Route::get('/folders', '\App\LaravelFilemanager\controllers\FolderController@getFolders');
 
-    // crop
-    Route::get('/crop', '\App\LaravelFilemanager\controllers\CropController@getCrop');
-    Route::get('/cropimage', '\App\LaravelFilemanager\controllers\CropController@getCropimage');
+
 
     // rename
     Route::get('/rename', '\App\LaravelFilemanager\controllers\RenameController@getRename');
 
-    // scale/resize
-    Route::get('/resize', '\App\LaravelFilemanager\controllers\ResizeController@getResize');
-    Route::get('/doresize', '\App\LaravelFilemanager\controllers\ResizeController@performResize');
+
 
     // download
     Route::get('/download', '\App\LaravelFilemanager\controllers\DownloadController@getDownload');

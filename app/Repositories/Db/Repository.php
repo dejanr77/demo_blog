@@ -33,9 +33,15 @@ abstract class Repository implements  RepositoryInterface
         return $this;
     }
 
-    public function with(array $relations)
+    public function with($relations)
     {
         $this->model = $this->model->with($relations);
+        return $this;
+    }
+
+    public function withCount($relationCount)
+    {
+        $this->model = $this->model->withCount($relationCount);
         return $this;
     }
 

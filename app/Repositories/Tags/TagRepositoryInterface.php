@@ -8,10 +8,11 @@ use App\Repositories\RepositoryInterface;
 interface TagRepositoryInterface extends RepositoryInterface
 {
     /**
+     * @param $relationCount
      * @param array $columns
      * @return mixed
      */
-    public function allTags( $columns = array('*'));
+    public function allTagsWithCount( $relationCount, $columns = array('*'));
 
     /**
      * @param $slug

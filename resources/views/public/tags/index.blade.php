@@ -27,7 +27,7 @@
                 @if(count($tags) > 0)
                     <div>
                         @foreach($tags as $tag)
-                            <a class="btn btn-default" href="{{ route('public.tags.articles',[ 'slug' => $tag->slug ]) }}">{{ $tag->name }}</a>
+                            <a class="btn btn-default" href="{{ route('public.tags.articles',[ 'slug' => $tag->slug ]) }}">{{ $tag->name }} <sup>({{ $tag->articles_count }})</sup></a>
                         @endforeach
                     </div>
                 @else

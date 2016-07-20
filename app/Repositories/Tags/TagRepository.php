@@ -15,10 +15,13 @@ class TagRepository extends  Repository implements TagRepositoryInterface
         $this->model = new $this->namespace();
     }
 
-    public function allTags($columns = array('*'))
+    public function allTagsWithCount($relationCount,$columns = array('*'))
     {
-        return $this->getAll($columns);
+        return $this
+            ->withCount($relationCount)
+            ->getAll($columns);
     }
+
 
     public function findTagWithSlug($slug)
     {

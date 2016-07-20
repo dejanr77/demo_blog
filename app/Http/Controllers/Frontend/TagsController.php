@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Repositories\Tags\TagRepositoryInterface;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -32,7 +33,7 @@ class TagsController extends Controller
      */
     public function index()
     {
-        $tags = $this->tagRepository->allTags();
+        $tags = $this->tagRepository->allTagsWithCount('articles');
 
         return view('public.tags.index', compact('tags'));
     }
@@ -47,7 +48,7 @@ class TagsController extends Controller
     {
         $tag = $this->tagRepository->findTagWithSlug($slug);
 
-        $articles = $tag->articles()->paginate(4);
+        $articles = $tag->articles()->where('published_at','<=',Carbon::now())->paginate(4);
 
         return view('public.tags.articles', compact('tag', 'articles'));
     }
