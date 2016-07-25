@@ -167,6 +167,8 @@ class ArticlesController extends Controller
 
         $this->syncTags($article, $request->input('tags'));
 
+        flash()->overlay('Article "'.$article->title.'" has been successfully created.', 'Article creating');
+
         return $article;
     }
 
@@ -183,6 +185,8 @@ class ArticlesController extends Controller
 
         $this->syncTags($article, $request->input('tags'));
 
+        flash()->overlay('Article "'.$article->title.'" has been successfully updated.', 'Article updating');
+
         return $article;
     }
 
@@ -193,6 +197,8 @@ class ArticlesController extends Controller
      */
     private function deleteArticle($article)
     {
+        flash()->overlay('Article "'.$article->title.'" has been successfully deleted.', 'Article deleting');
+
         $this->articleRepository->delete($article);
     }
 }
