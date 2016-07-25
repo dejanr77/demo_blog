@@ -28,5 +28,9 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Repositories\Articles\ArticleRepository'
         );
 
+        $this->app->bind(
+            'App\Repositories\Tags\TagRepositoryInterface',
+            'App\Repositories\Tags\TagRepository'
+        );
     }
 }

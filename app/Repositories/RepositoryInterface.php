@@ -27,11 +27,18 @@ interface RepositoryInterface
      */
     public function orderBy($attribute, $direction = 'asc');
 
+
     /**
-     * @param array $relations
+     * @param $relations
      * @return mixed
      */
-    public function with(array $relations);
+    public function with($relations);
+
+    /**
+     * @param $relationCount
+     * @return mixed
+     */
+    public function withCount($relationCount);
 
     /**
      * @param $relations
@@ -43,7 +50,13 @@ interface RepositoryInterface
      * @param array $columns
      * @return mixed
      */
-    public function all($columns = ['*']);
+    public function getAll($columns = ['*']);
+
+    /**
+     * @param array $columns
+     * @return mixed
+     */
+    public function getFirst($columns = ['*']);
 
     /**
      * @param int $perPage
