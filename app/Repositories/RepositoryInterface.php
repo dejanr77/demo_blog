@@ -96,14 +96,14 @@ interface RepositoryInterface
 
     /**
      * @param $data
-     * @param $id
+     * @param $model
      * @return mixed
      */
-    public function update($data, $id);
+    public function update($data, $model);
 
     /**
-     * @param $id
+     * @param $model
      * @return mixed
      */
-    public function delete($id);
+    public function delete($model);
 }

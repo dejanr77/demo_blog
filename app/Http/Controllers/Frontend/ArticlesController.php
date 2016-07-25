@@ -101,7 +101,9 @@ class ArticlesController extends Controller
      */
     public function edit($id)
     {
-        $article  = $this->articleRepository->first($id);
+        $article = $this->articleRepository->first($id);
+
+        $this->authorize('edit', $article);
 
         return view('public.articles.edit', compact('article'));
     }
@@ -115,7 +117,11 @@ class ArticlesController extends Controller
      */
     public function update(ArticleRequest $request, $id)
     {
-        $this->updateArticle($request, $id);
+        $article = $this->articleRepository->first($id);
+
+        $this->authorize('update', $article);
+
+        $this->updateArticle($request, $article);
 
         return redirect()->route('public.articles.index');
     }
@@ -128,7 +134,11 @@ class ArticlesController extends Controller
      */
     public function destroy($id)
     {
-        $this->deleteArticle($id);
+        $article = $this->articleRepository->first($id);
+
+        $this->authorize('delete', $article);
+
+        $this->deleteArticle($article);
 
         return redirect()->route('public.articles.index');
     }
@@ -164,12 +174,12 @@ class ArticlesController extends Controller
      * Update an article.
      *
      * @param ArticleRequest $request
-     * @param $id
+     * @param $article
      * @return mixed
      */
-    private function updateArticle(ArticleRequest $request, $id)
+    private function updateArticle(ArticleRequest $request, $article)
     {
-        $article = $this->articleRepository->update($request->all(), $id);
+        $article = $this->articleRepository->update($request->all(), $article);
 
         $this->syncTags($article, $request->input('tags'));
 
@@ -179,10 +189,10 @@ class ArticlesController extends Controller
     /**
      * Delete an article
      *
-     * @param $id
+     * @param $article
      */
-    private function deleteArticle($id)
+    private function deleteArticle($article)
     {
-        $this->articleRepository->delete($id);
+        $this->articleRepository->delete($article);
     }
 }
