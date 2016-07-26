@@ -6,7 +6,7 @@
         <div class="col-md-4 col-md-offset-4">
         <h1 class="page-header">
             Login
-            <a class="btn btn-default btn-sm " href="{{ url('/') }}">home</a>
+            <a class="btn btn-default pull-right " href="{{ url('/') }}"><i class="fa fa-home" aria-hidden="true"></i> home</a>
         </h1>
         <form  role="form" method="POST" action="{{ url('/login') }}">
             {{ csrf_field() }}
