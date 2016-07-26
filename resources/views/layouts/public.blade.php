@@ -10,6 +10,8 @@
 
     @yield('header')
 
+    @include('flash::message')
+
     @yield('content')
 
 <hr>
@@ -25,6 +27,10 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="{{ url('js/clean-blog.min.js') }}"></script>
+
+    <script>
+        $('#flash-overlay-modal').modal();
+    </script>
     @show
 
 </body>

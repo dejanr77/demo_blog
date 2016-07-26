@@ -14,10 +14,15 @@
                         <p class="post-meta">
                             Posted by <a href="{{ route('public.articles.user',['name' => $article->user->name ]) }}">{{ $article->user->name }}</a> on {{ $article->published_at->format('F j, Y') }}
                         </p>
+                        @can('edit', $article)
                         <a class="btn btn-default btn-xs pull-left" href="{{ route('public.articles.edit',['articles' => $article->id]) }}"> <i class="fa fa-edit"></i> Update</a>
+                        @endcan
+                        @can('delete', $article)
                         {!! Form::open(['method'=>'DELETE','url' => 'articles/'.$article->id,'role' => 'form']) !!}
                         {!! Form::submit("Delete",['class' => 'btn btn-danger btn-xs pull-left']) !!}
                         {!! Form::close() !!}
+                        @endcan
+                        <div class="clearfix"></div>
                     </div>
                 </div>
             </div>

@@ -33,4 +33,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Article');
     }
+
+    public function own($releted)
+    {
+        return $this->id === $releted->user_id;
+    }
 }
