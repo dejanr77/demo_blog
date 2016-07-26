@@ -1,0 +1,7 @@
+#dropdown-user li a{
+    color: #666;
+}
+
+#dropdown-user li.active a{
+    color: #fff;
+}
