@@ -5,11 +5,14 @@ namespace App\Models;
 use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
+use Laracasts\Presenter\PresentableTrait;
 
 class Article extends Model
 {
     use Sluggable;
+    use PresentableTrait;
 
+    protected $presenter = 'App\Presenters\ArticlePresenter';
     /**
      * Return the sluggable configuration array for this model.
      *
@@ -32,6 +35,8 @@ class Article extends Model
     protected $fillable = [
         'title',
         'excerpt',
+        'status',
+        'comments',
         'body',
         'published_at'
     ];

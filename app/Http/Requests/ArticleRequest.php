@@ -29,10 +29,10 @@ class ArticleRequest extends Request
         if(request()->method() === 'DELETE') return [];
 
         return [
-            'title' => 'required|min:3|max:240|'.$unique_title,
-            'excerpt' => 'required|min:3|max:128',
-            'body' => 'required',
-            'published_at' => 'required|date|date_format:Y-m-d'
+            'title' => 'required|min:3|max:240|alpha_num|'.$unique_title,
+            'excerpt' => 'required|min:3|max:128|alpha_num',
+            'comments' => 'boolean',
+            'body' => 'required'
         ];
     }
 }

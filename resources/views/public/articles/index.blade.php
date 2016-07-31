@@ -36,7 +36,7 @@
                                     {{ $article->excerpt }}
                                 </h3>
                             </a>
-                            <p class="post-meta">Posted by <a href="{{ route('public.article.user',['name' => $article->user->name ]) }}">{{ $article->user->present()->publicFullName() }}</a> on {{ $article->published_at->format('F j, Y') }}</p>
+                            <p class="post-meta">Posted by <a href="{{ route('public.article.user',['name' => $article->user->name ]) }}">{{ $article->user->present()->publicFullName() }}</a> on {{ $article->present()->publishedAtWithFormatForPublicShow() }}</p>
                         </div>
                         <hr>
                     @endforeach

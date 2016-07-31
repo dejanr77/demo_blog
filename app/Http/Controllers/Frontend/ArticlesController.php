@@ -9,6 +9,8 @@ use App\Repositories\Articles\ArticleRepositoryInterface;
 use App\User;
 
 use App\Http\Requests;
+use Gate;
+use Illuminate\Http\Request;
 
 class ArticlesController extends Controller
 {
@@ -30,6 +32,50 @@ class ArticlesController extends Controller
         $this->articleRepository = $articleRepository;
     }
 
+    public function status($id,Request $request)
+    {
+        $article = $this->articleRepository->first($id);
+
+        if ($request->ajax() || $request->wantsJson()) {
+            if (empty($article))
+                return response()->json(404);
+
+            if (Gate::denies('status', $article))
+                return response()->json(403);
+
+            if($article->update(['status' => $request->input('value')])) return response()->json(200);
+
+            return response()->json(500);
+        }
+        $this->authorize('status',$article);
+
+        $article->update(['status' => $request->input('value')]);
+
+        return redirect()->route('public.userCenters.articles',['user' => $article->user_id]);
+    }
+
+    public function comments($id, Request $request)
+    {
+        $article = $this->articleRepository->first($id);
+
+        if ($request->ajax() || $request->wantsJson()) {
+            if (empty($article))
+                return response()->json(404);
+
+            if (Gate::denies('comments', $article))
+                return response()->json(403);
+
+            if($article->update(['comments' => $request->input('value')])) return response()->json(200);
+
+            return response()->json(500);
+        }
+        $this->authorize('comments',$article);
+
+        $article->update(['comments' => $request->input('value')]);
+
+        return redirect()->route('public.userCenters.articles',['user' => $article->user_id]);
+    }
+
     /**
      * Display a listing of the article.
      *
@@ -37,7 +83,7 @@ class ArticlesController extends Controller
      */
     public function index()
     {
-        $articles = $this->articleRepository->with(['user'])->allPublishedArticles(4);
+        $articles = $this->articleRepository->with(['user.profile'])->allPublishedArticles(4);
 
         return view('public.articles.index', compact('articles'));
     }
@@ -138,6 +184,26 @@ class ArticlesController extends Controller
         $this->deleteArticle($request, $article);
 
         return redirect()->route('public.article.index');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param ArticleRequest $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function delete(ArticleRequest $request, $id)
+    {
+        $article = $this->articleRepository->first($id);
+
+        $userId = $article->user_id;
+
+        $this->authorize('delete', $article);
+
+        $this->deleteArticle($request, $article);
+
+        return redirect()->route('public.userCenters.articles',['user' => $userId]);
     }
 
     /**

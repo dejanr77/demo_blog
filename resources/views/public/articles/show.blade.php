@@ -12,7 +12,7 @@
                     <div class="post-heading">
                         <h1>{{ $article->title }}</h1>
                         <p class="post-meta">
-                            Posted by <a href="{{ route('public.article.user',['name' => $article->user->name ]) }}">{{ $article->user->present()->publicFullName() }}</a> on {{ $article->published_at->format('F j, Y') }}
+                            Posted by <a href="{{ route('public.article.user',['name' => $article->user->name ]) }}">{{ $article->user->present()->publicFullName() }}</a> on {{ $article->present()->publishedAtWithFormatForPublicShow()  }}
                         </p>
                         @can('edit', $article)
                         <a class="btn btn-default btn-xs pull-left" href="{{ route('public.article.edit',['article' => $article->id]) }}"> <i class="fa fa-edit"></i> Update</a>
