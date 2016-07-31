@@ -3,9 +3,14 @@
 namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laracasts\Presenter\PresentableTrait;
 
 class User extends Authenticatable
 {
+    use PresentableTrait;
+
+    protected $presenter = 'App\Presenters\UserPresenter';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -42,6 +47,16 @@ class User extends Authenticatable
     public function activities()
     {
         return $this->hasMany('App\Models\UserActivity');
+    }
+
+    /**
+     * Get the profile associated with the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function profile()
+    {
+        return $this->hasOne('App\Models\Profile');
     }
 
     public function own($releted)

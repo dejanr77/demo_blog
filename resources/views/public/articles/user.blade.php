@@ -12,7 +12,7 @@
                     <div class="site-heading">
                         <h1>Articles</h1>
                         <hr class="small">
-                        <span class="subheading"> written by {{ $user->name }}</span>
+                        <span class="subheading"> written by {{ $user->present()->publicFullName() }}</span>
                     </div>
                 </div>
             </div>

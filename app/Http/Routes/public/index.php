@@ -17,6 +17,8 @@ Route::group([
 
         require (__DIR__ . '/userCenter/index.php');
 
+        require (__DIR__.'/profile/index.php');
+
     });
 
 });

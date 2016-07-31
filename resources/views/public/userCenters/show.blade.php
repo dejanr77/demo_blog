@@ -24,8 +24,7 @@
                                     <thead>
                                     <tr>
                                         <th>Activity</th>
-                                        <th>Modified at</th>
-                                        <th>Action</th>
+                                        <th class="text-right">Modified at</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -34,18 +33,14 @@
                                             <td>
                                                 {{ $activity->content }}
                                             </td>
-                                            <td>
+                                            <td class="text-right">
                                                 <i class="fa fa-calendar"></i> {{ $activity->updated_at->diffForHumans() }}
                                             </td>
-                                            <td>
-                                                <a class="preview_article" href="#" target="_blank"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
-                                                <a class="edit_article" href="#" target="_blank"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                                <a href="#"><i class="fa fa-ban"></i> </a>
-                                            </td>
+
                                         </tr>
                                     @endforeach
                                     <tr>
-                                        <td colspan="3">
+                                        <td colspan="2">
                                             {!! $activities->render() !!} &nbsp;
                                         </td>
                                     </tr>
