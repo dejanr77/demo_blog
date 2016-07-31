@@ -1,8 +1,8 @@
 <?php
 
-Route::resource('articles', 'ArticlesController');
+Route::resource('article', 'ArticlesController');
 
-Route::get('articles/user/{name}',[
+Route::get('article/user/{name}',[
     'uses' => 'ArticlesController@user',
-    'as' => 'articles.user'
+    'as' => 'article.user'
 ]);

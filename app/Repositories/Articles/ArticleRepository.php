@@ -35,10 +35,23 @@ class ArticleRepository extends Repository implements  ArticleRepositoryInterfac
             ->paginate($perPage, $columns, $pageName);
     }
 
-    public function findArticleWithSlug($slug)
+    public function allArticlesForUser($user, $perPage = 8, $columns = array('*'), $pageName = 'page' )
+    {
+        return $this->where($user->id,'user_id' )
+            ->orderBy('created_at','dsc')
+            ->paginate($perPage, $columns, $pageName);
+    }
+
+    public function findPublishedArticleWithSlug($slug)
     {
         return $this->whereSlug($slug)
             ->where(Carbon::now(),'published_at','<=')
+            ->getFirst();
+    }
+
+    public function previewArticleWithSlug($slug)
+    {
+        return $this->whereSlug($slug)
             ->getFirst();
     }
 }

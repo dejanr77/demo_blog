@@ -77,7 +77,7 @@ class ArticlesController extends Controller
     {
         $this->createArticle($request);
 
-        return redirect()->route('public.articles.index');
+        return redirect()->route('public.article.index');
     }
 
     /**
@@ -88,7 +88,7 @@ class ArticlesController extends Controller
      */
     public function show($slug)
     {
-        $article = $this->articleRepository->findArticleWithSlug($slug);
+        $article = $this->articleRepository->findPublishedArticleWithSlug($slug);
 
         $tag_list_with_count = $article->tags()->withCount('articles')->get();
 
@@ -98,13 +98,11 @@ class ArticlesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param Article $article
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Article $article)
     {
-        $article = $this->articleRepository->first($id);
-
         $this->authorize('edit', $article);
 
         return view('public.articles.edit', compact('article'));
@@ -113,36 +111,33 @@ class ArticlesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  ArticleRequest  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param ArticleRequest $request
+     * @param Article $article
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(ArticleRequest $request, $id)
+    public function update(ArticleRequest $request, Article $article)
     {
-        $article = $this->articleRepository->first($id);
-
         $this->authorize('update', $article);
 
         $this->updateArticle($request, $article);
 
-        return redirect()->route('public.articles.index');
+        return redirect()->route('public.article.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param ArticleRequest $request
+     * @param  Article $article
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(ArticleRequest $request, Article $article)
     {
-        $article = $this->articleRepository->first($id);
-
         $this->authorize('delete', $article);
 
-        $this->deleteArticle($article);
+        $this->deleteArticle($request, $article);
 
-        return redirect()->route('public.articles.index');
+        return redirect()->route('public.article.index');
     }
 
     /**
@@ -158,6 +153,23 @@ class ArticlesController extends Controller
     }
 
     /**
+     * Log activity for user.
+     *
+     * @param ArticleRequest $request
+     * @param Article $article
+     * @param $content
+     */
+    private function logActivity(ArticleRequest $request, Article $article, $content)
+    {
+        $request->user()->activities()->create([
+            'ip_address' => $request->ip(),
+            'type' => class_basename($article),
+            'type_id' => $article->id,
+            'content' => $content
+        ]);
+    }
+
+    /**
      * Save a new article.
      *
      * @param ArticleRequest $request
@@ -166,6 +178,8 @@ class ArticlesController extends Controller
     private function createArticle(ArticleRequest $request)
     {
         $article = $this->articleRepository->createByUser('articles', $request->all());
+
+        $this->logActivity($request, $article, 'Article "' . $article->title . '" was created');
 
         $this->syncTags($article, $request->input('tags'));
 
@@ -185,6 +199,8 @@ class ArticlesController extends Controller
     {
         $article = $this->articleRepository->update($request->all(), $article);
 
+        $this->logActivity($request, $article, 'Article "' . $article->title . '" was updated');
+
         $this->syncTags($article, $request->input('tags'));
 
         flash()->overlay('Article "'.$article->title.'" has been successfully updated.', 'Article updating');
@@ -195,10 +211,13 @@ class ArticlesController extends Controller
     /**
      * Delete an article
      *
+     * @param ArticleRequest $request
      * @param $article
      */
-    private function deleteArticle($article)
+    private function deleteArticle(ArticleRequest $request, $article)
     {
+        $this->logActivity($request, $article, 'Article "' . $article->title . '" was deleted');
+
         flash()->overlay('Article "'.$article->title.'" has been successfully deleted.', 'Article deleting');
 
         $this->articleRepository->delete($article);

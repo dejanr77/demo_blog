@@ -28,7 +28,7 @@
                 @if(count($articles) > 0)
                     @foreach($articles as $article)
                         <div class="post-preview">
-                            <a href="{{ route('public.articles.show',['slug' => $article->slug]) }}">
+                            <a href="{{ route('public.article.show',['slug' => $article->slug]) }}">
                                 <h2 class="post-title">
                                     {{ $article->title }}
                                 </h2>

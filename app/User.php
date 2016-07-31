@@ -34,6 +34,16 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Article');
     }
 
+    /**
+     * Get the activities for user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function activities()
+    {
+        return $this->hasMany('App\Models\UserActivity');
+    }
+
     public function own($releted)
     {
         return $this->id === $releted->user_id;

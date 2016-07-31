@@ -33,8 +33,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            {!! Form::model($article,['method'=>'PATCH','url' => 'articles/'.$article->id,'role' => 'form']) !!}
-            @include('partials.article_form',['submitText' => 'Update Article'])
+            {!! Form::model($article,['method'=>'PATCH','url' => 'article/'.$article->id,'role' => 'form']) !!}
+            @include('public.articles.partials.form',['submitText' => 'Update Article'])
             {!! Form::close() !!}
             </div>
         </div>

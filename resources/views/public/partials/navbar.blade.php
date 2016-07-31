@@ -18,8 +18,8 @@
                 <li class="{{ set_active('/') }}">
                     <a  href="{{ route('public.home') }}">Home</a>
                 </li>
-                <li class="{{ set_active('articles') }}">
-                    <a  href="{{ route('public.articles.index') }}">Articles</a>
+                <li class="{{ set_active('article') }}">
+                    <a  href="{{ route('public.article.index') }}">Articles</a>
                 </li>
                 <li class="{{ set_active('about') }}">
                     <a  href="{{ route('public.about') }}">About</a>
@@ -37,11 +37,11 @@
                             {{ auth()->user()->name }} <i class="fa fa-caret-down"></i>
                         </a>
                         <ul id="dropdown-user" class="dropdown-menu">
-                            <li class="{{ set_active('articles/create') }}">
-                                <a href="{{ route('public.articles.create') }}"><i class="fa fa-plus-square-o fa-fw"></i> Add article</a>
+                            <li class="{{ set_active('article/create') }}">
+                                <a href="{{ route('public.article.create') }}"><i class="fa fa-plus-square-o fa-fw"></i> Add article</a>
                             </li>
                             <li>
-                                <a href="#"><i class="fa fa-user fa-fw"></i> User Centar</a>
+                                <a href="{{ route('public.userCenters.show',['user' => auth()->user()->id]) }}"><i class="fa fa-user fa-fw"></i> User Centar</a>
                             </li>
                             <li class="divider"></li>
                             <li>

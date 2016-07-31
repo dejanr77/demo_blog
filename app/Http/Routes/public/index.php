@@ -11,8 +11,13 @@ Route::group([
 
     require (__DIR__ . '/tag/index.php');
 
+    Route::group([
+        'middleware' => 'auth'
+    ],function() {
 
+        require (__DIR__ . '/userCenter/index.php');
 
+    });
 
 });
 
