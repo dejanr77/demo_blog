@@ -7,7 +7,7 @@
             <div class="col-md-4 col-md-offset-4">
                 <h1 class="page-header">
                     Reset Password
-                    <a class="btn btn-default btn-sm " href="{{ url()->previous() }}">back</a>
+                    <a class="btn btn-default pull-right " href="{{ url('/') }}"><i class="fa fa-home" aria-hidden="true"></i> home</a>
                 </h1>
                 @if (session('status'))
                     <div class="alert alert-success">

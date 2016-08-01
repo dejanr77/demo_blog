@@ -18,16 +18,7 @@
                     </span>
                     @endif
                 </div>
-                <!-- Published on Form Input -->
-                <div class="form-group">
-                    {!! Form::label('published_at','Published on: ') !!}
-                    {!! Form::input('date','published_at',$article->published_at->format('Y-m-d'),['class' => 'form-control']) !!}
-                    @if ($errors->has('published_at'))
-                    <span class="help-block">
-                        <strong class="text-danger">{{ $errors->first('published_at') }}</strong>
-                    </span>
-                    @endif
-                </div>
+
                 <!-- Tags Form Input -->
                 <div class="form-group">
                     {!! Form::label('tags','Tags: ') !!}
@@ -38,6 +29,18 @@
                         </span>
                     @endif
                 </div>
+
+                <!-- Comments Form Input -->
+                <div class="form-group">
+                    {!! Form::checkbox('comments', 1, null,['id' => 'comments_article']) !!}
+                    {!! Form::label('comments_article',' Set Comments') !!}
+                    @if ($errors->has('status'))
+                        <span class="help-block">
+                            <strong class="text-danger">{{ $errors->first('status') }}</strong>
+                        </span>
+                    @endif
+                </div>
+
                 <!-- Body Form Input -->
                 <div class="form-group">
                     {!! Form::label('body','Body: ') !!}

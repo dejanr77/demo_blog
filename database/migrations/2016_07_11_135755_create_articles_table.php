@@ -17,9 +17,11 @@ class CreateArticlesTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->string('title');
             $table->string('slug')->unique('slug');
+            $table->boolean('status')->default(false);
+            $table->boolean('comments')->default(false);
             $table->text('excerpt');
             $table->text('body');
-            $table->timestamp('published_at');
+            $table->timestamp('published_at')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')

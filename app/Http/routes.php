@@ -1,10 +1,10 @@
 <?php
 
-require (__DIR__ . '/Routes/public.php');
+require (__DIR__ . '/Routes/public/index.php');
 
-require (__DIR__ . '/Routes/auth.php');
+require (__DIR__ . '/Routes/auth/index.php');
 
-require (__DIR__ . '/Routes/admin.php');
+require (__DIR__ . '/Routes/admin/index.php');
 
 
 

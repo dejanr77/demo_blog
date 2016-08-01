@@ -29,14 +29,9 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            {!! Form::model($article = new App\Models\Article(),['url' => 'articles','role' => 'form']) !!}
-            @include('partials.article_form',['submitText' => 'Add Article'])
+            {!! Form::model($article = new App\Models\Article(),['url' => 'article','role' => 'form']) !!}
+            @include('public.articles.partials.form',['submitText' => 'Add Article'])
             {!! Form::close() !!}
-
-                <form id="my_form" action="{{ url('articles/upload') }}" method="post" enctype="multipart/form-data" style="width:0px;height:0;overflow:hidden">
-                    {{ csrf_field() }}
-                    <input name="file" type="file" onchange="$('#my_form').submit();this.value='';">
-                </form>
             </div>
         </div>
     </div>

@@ -23,8 +23,23 @@ interface ArticleRepositoryInterface extends  RepositoryInterface
     public function allPublishedArticlesForUser($user, $perPage = 8, $columns = array('*'), $pageName = 'page' );
 
     /**
+     * @param $user
+     * @param int $perPage
+     * @param array $columns
+     * @param string $pageName
+     * @return mixed
+     */
+    public function allArticlesForUser($user, $perPage = 8, $columns = array('*'), $pageName = 'page' );
+
+    /**
      * @param $slug
      * @return mixed
      */
-    public function findArticleWithSlug($slug);
+    public function findPublishedArticleWithSlug($slug);
+
+    /**
+     * @param $slug
+     * @return mixed
+     */
+    public function previewArticleWithSlug($slug);
 }

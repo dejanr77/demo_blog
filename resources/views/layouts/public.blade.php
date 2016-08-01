@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    @include('partials.public_head')
+    @include('public.partials.head')
 </head>
 
 <body>
 
-    @include('partials.public_navbar')
+    @include('public.partials.navbar')
 
     @yield('header')
 
@@ -16,7 +16,7 @@
 
 <hr>
 
-    @include('partials.public_footer')
+    @include('public.partials.footer')
 
     @section('footer')
     <!-- jQuery -->

@@ -32,7 +32,7 @@ class ViewComposerServiceProvider extends ServiceProvider
      */
     private function composeArticleForm()
     {
-        view()->composer('partials.article_form','App\Http\Composers\ArticleFormComposer');
+        view()->composer('public.articles.partials.form','App\Http\Composers\ArticleFormComposer');
 
     }
 }

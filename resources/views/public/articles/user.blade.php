@@ -12,7 +12,7 @@
                     <div class="site-heading">
                         <h1>Articles</h1>
                         <hr class="small">
-                        <span class="subheading"> written by {{ $user->name }}</span>
+                        <span class="subheading"> written by {{ $user->present()->publicFullName() }}</span>
                     </div>
                 </div>
             </div>
@@ -28,7 +28,7 @@
                 @if(count($articles) > 0)
                     @foreach($articles as $article)
                         <div class="post-preview">
-                            <a href="{{ route('public.articles.show',['slug' => $article->slug]) }}">
+                            <a href="{{ route('public.article.show',['slug' => $article->slug]) }}">
                                 <h2 class="post-title">
                                     {{ $article->title }}
                                 </h2>
@@ -36,7 +36,7 @@
                                     {{ $article->excerpt }}
                                 </h3>
                             </a>
-                            <p class="post-meta">Posted on {{ $article->published_at->format('F j, Y') }}</p>
+                            <p class="post-meta">Posted on {{ $article->present()->publishedAtWithFormatForPublicShow() }}</p>
                         </div>
                         <hr>
                     @endforeach
