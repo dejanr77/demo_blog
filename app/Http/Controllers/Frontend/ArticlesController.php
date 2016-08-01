@@ -121,9 +121,9 @@ class ArticlesController extends Controller
      */
     public function store(ArticleRequest $request)
     {
-        $this->createArticle($request);
+        $article = $this->createArticle($request);
 
-        return redirect()->route('public.article.index');
+        return redirect()->route('public.userCenters.articles',['user' => $article->user_id]);
     }
 
     /**
@@ -167,7 +167,7 @@ class ArticlesController extends Controller
 
         $this->updateArticle($request, $article);
 
-        return redirect()->route('public.article.index');
+        return redirect()->route('public.article.show',['article' => $article->slug]);
     }
 
     /**
