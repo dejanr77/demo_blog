@@ -30,6 +30,7 @@ class ArticleService
     public function __construct(ArticleRepositoryInterface $articleRepository, UserActivityService $userActivity)
     {
         $this->articleRepository = $articleRepository;
+
         $this->userActivity = $userActivity;
     }
 
@@ -96,11 +97,13 @@ class ArticleService
      */
     public function createArticle(ArticleRequest $request)
     {
+        $tags = $this->ifItHasNewTagsCreate($request);
+
         $article = $this->articleRepository->createByUser('articles', $request->all());
 
         $this->userActivity->log($request, $article, 'Article "' . $article->title . '" was created');
 
-        $this->syncTags($article, $request->input('tags'));
+        $this->syncTags($article, $tags);
 
         flash()->overlay('Article "'.$article->title.'" has been successfully created.', 'Article creating');
 
@@ -118,13 +121,15 @@ class ArticleService
     {
         $input = $request->all();
 
+        $tags = $this->ifItHasNewTagsCreate($request);
+
         $input['comments'] = isset($input['comments']) ? $input['comments'] : 0;
 
         $article = $this->articleRepository->update($input, $article);
 
         $this->userActivity->log($request, $article, 'Article "' . $article->title . '" was updated');
 
-        $this->syncTags($article, $request->input('tags'));
+        $this->syncTags($article, $tags);
 
         flash()->overlay('Article "'.$article->title.'" has been successfully updated.', 'Article updating');
 
@@ -145,6 +150,30 @@ class ArticleService
 
         $this->articleRepository->delete($article);
     }
-    
-    
+
+    /**
+     * @param Request $request
+     * @return array|string
+     */
+    private function ifItHasNewTagsCreate(Request $request)
+    {
+        $tags = $request->input('tags');
+
+        foreach ($tags as $ktag => $vtag)
+        {
+            if (starts_with($vtag, 'new:'))
+            {
+                $tag = $request->user()->tags()->create([
+                    'name' => substr($vtag, 4)
+                ]);
+
+                $this->userActivity->log($request, $tag, 'Tag "' . $tag->name . '" was created');
+
+                $tags[$ktag] = $tag->id;
+            }
+        }
+        return $tags;
+    }
+
+
 }

@@ -13,8 +13,9 @@ class TagsTableSeeder extends Seeder
      */
     public function run()
     {
+        $admin = \App\User::find(1);
 
-        Tag::create([
+        $admin->tags()->create([
             'name' => 'demo'
         ]);
 

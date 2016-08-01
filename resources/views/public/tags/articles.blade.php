@@ -56,7 +56,7 @@
                         </ul>
                     @endif
                 @else
-                    There are no posts.
+                    There are no articles.
                 @endif
             </div>
         </div>

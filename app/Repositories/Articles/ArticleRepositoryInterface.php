@@ -1,10 +1,18 @@
 <?php
 namespace App\Repositories\Articles;
 
+use App\Models\Article;
 use App\Repositories\RepositoryInterface;
 
 interface ArticleRepositoryInterface extends  RepositoryInterface
 {
+    /**
+     * @param Article $article
+     * @param array $columns
+     * @return mixed
+     */
+    public function getTagsWitCount(Article $article,$columns = array('*'));
+
     /**
      * @param int $perPage
      * @param array $columns

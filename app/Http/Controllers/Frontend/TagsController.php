@@ -33,7 +33,9 @@ class TagsController extends Controller
      */
     public function index()
     {
-        $tags = $this->tagRepository->allTagsWithCount('articles');
+        $tags = $this->tagRepository->allTagsWithCount(['articles' => function ($query) {
+            $query->where('published_at','<=',Carbon::now());
+        }]);
 
         return view('public.tags.index', compact('tags'));
     }

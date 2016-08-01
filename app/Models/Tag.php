@@ -34,6 +34,16 @@ class Tag extends Model
     ];
 
     /**
+     * An article is owned by a user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
+    /**
      * Get the articles associated with a given tag.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

@@ -122,7 +122,7 @@ class ArticlesController extends Controller
     {
         $article = $articleRepository->findPublishedArticleWithSlug($slug);
 
-        $tag_list_with_count = $article->tags()->withCount('articles')->get();
+        $tag_list_with_count = $articleRepository->getTagsWitCount($article);
 
         return view('public.articles.show', compact('article', 'tag_list_with_count'));
     }

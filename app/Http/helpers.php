@@ -24,10 +24,12 @@ function shortenText($text, $words_count, $marker = '...')
  * Get a classes string depending on the path.
  *
  * @param $path
- * @param $active
+ * @param string $active
+ * @param string $inactive
  * @return string
  */
 function set_active($path, $active = 'active', $inactive = 'inactive')
 {
     return Request::is($path) ? $active  : $inactive;
 }
+

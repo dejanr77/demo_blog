@@ -36,14 +36,20 @@
                                             <td>
                                                 {{ $article->present()->shortenTitle() }}
                                             </td>
-                                            @if($article->status)
-                                                <td class="status">
-                                                    <a href="{{ route('public.article.status',['article' => $article->id, 'value' => 0]) }}" class="text-success article-opt"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                            @if($article->is_published)
+                                                <td class="text-success">
+                                                    published
                                                 </td>
                                             @else
-                                                <td class="status">
-                                                    <a href="{{ route('public.article.status',['article' => $article->id, 'value' => 1]) }}" class="article-opt"><i class="fa fa-times" aria-hidden="true"></i></a>
-                                                </td>
+                                                @if($article->status)
+                                                    <td class="status">
+                                                        <a href="{{ route('public.article.status',['article' => $article->id, 'value' => 0]) }}" class="text-success article-opt"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                                    </td>
+                                                @else
+                                                    <td class="status">
+                                                        <a href="{{ route('public.article.status',['article' => $article->id, 'value' => 1]) }}" class="article-opt"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                                    </td>
+                                                @endif
                                             @endif
                                             @if($article->comments)
                                                 <td class="comments" >
@@ -62,7 +68,7 @@
                                             </td>
                                             <td class="text-right">
                                                 <a class="preview_article" href="{{ route('public.previews.show',['previews' => $article->slug]) }}" target="_blank"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
-                                                <a class="edit_article" href="{{ route('public.previews.edit',['previews' => $article->id]) }}" target="_blank"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                                <a class="edit_article" href="{{ route('public.previews.edit',['previews' => $article->id]) }}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                                                 <a href="{{ route('public.previews.delete',['previews' => $article->id]) }}"><i class="fa fa-ban"></i> </a>
                                             </td>
                                         </tr>

@@ -19,6 +19,7 @@ class CreateArticlesTable extends Migration
             $table->string('slug')->unique('slug');
             $table->boolean('status')->default(false);
             $table->boolean('comments')->default(false);
+            $table->boolean('is_published')->default(false);
             $table->text('excerpt');
             $table->text('body');
             $table->timestamp('published_at')->nullable();

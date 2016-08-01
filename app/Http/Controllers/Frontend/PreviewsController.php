@@ -41,7 +41,7 @@ class PreviewsController extends Controller
 
         $this->authorize('show',$article);
 
-        $tag_list_with_count = $article->tags()->withCount('articles')->get();
+        $tag_list_with_count = $this->articleRepository->getTagsWitCount($article);
 
         return view('public.previews.show', compact('article', 'tag_list_with_count'));
     }
