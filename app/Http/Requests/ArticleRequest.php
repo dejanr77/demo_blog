@@ -29,8 +29,8 @@ class ArticleRequest extends Request
         if(request()->method() === 'DELETE') return [];
 
         return [
-            'title' => 'required|min:3|max:240|alpha_num|'.$unique_title,
-            'excerpt' => 'required|min:3|max:128|alpha_num',
+            'title' => 'required|min:3|max:240|regex:/^[A-Za-z0-9\-!\s,\'\"\/@\.:\(\)]+$/|'.$unique_title,
+            'excerpt' => 'required|min:3|max:128|regex:/^[A-Za-z0-9\-!\s,\'\"\/@\.:\(\)]+$/',
             'comments' => 'boolean',
             'body' => 'required'
         ];

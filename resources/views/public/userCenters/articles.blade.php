@@ -61,15 +61,15 @@
                                                 <i class="fa fa-calendar"></i> {{ $article->created_at->diffForHumans() }}
                                             </td>
                                             <td class="text-right">
-                                                <a class="preview_article" href="#" target="_blank"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
-                                                <a class="edit_article" href="#" target="_blank"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                                <a href="#"><i class="fa fa-ban"></i> </a>
+                                                <a class="preview_article" href="{{ route('public.previews.show',['previews' => $article->slug]) }}" target="_blank"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                                                <a class="edit_article" href="{{ route('public.previews.edit',['previews' => $article->id]) }}" target="_blank"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                                <a href="{{ route('public.previews.delete',['previews' => $article->id]) }}"><i class="fa fa-ban"></i> </a>
                                             </td>
                                         </tr>
                                     @endforeach
                                     <tr>
                                         <td colspan="5">
-                                            {!! $articles->render() !!}
+                                            {!! $articles->render() !!}&nbsp;
                                         </td>
                                     </tr>
                                     </tbody>
@@ -86,7 +86,22 @@
             </div>
         </div>
     </div>
-
+    <div class="modal fade user-center-modal" tabindex="-1" role="dialog" >
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <iframe src="#" frameborder="0" height="300"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 
@@ -94,6 +109,44 @@
     @parent
     <script>
         $(function(){
+
+            function runModel(modal,title_text,url)
+            {
+                var user_modal = $(modal);
+
+                user_modal.on('show.bs.modal', function () {
+                    var modal = $(this),
+                            title = modal.find('.modal-title'),
+                            iframe = modal.find('.modal-body iframe');
+
+                    title.text(title_text);
+                    iframe.attr('src', url)
+
+                });
+
+                user_modal.modal();
+
+                user_modal.off('show.bs.modal');
+            }
+
+            $('.preview_article').on('click',function(e){
+                e.preventDefault();
+
+                var url = $(this).attr('href');
+
+                runModel('.user-center-modal','Preview Article', url);
+
+            });
+
+            $('.edit_article').on('click',function(e){
+                e.preventDefault();
+
+                var url = $(this).attr('href');
+
+                runModel('.user-center-modal','Edit Article', url);
+
+            });
+
 
             $('.article-opt').on('click',function(e){
                 e.preventDefault();

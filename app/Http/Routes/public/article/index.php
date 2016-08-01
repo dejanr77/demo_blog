@@ -17,8 +17,4 @@ Route::get('article/{article}/comments',[
     'as' => 'article.comments'
 ]);
 
-Route::get('article/{article}/delete',[
-    'uses' => 'ArticlesController@delete',
-    'as' => 'article.delete'
-]);
 

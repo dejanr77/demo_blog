@@ -186,25 +186,6 @@ class ArticlesController extends Controller
         return redirect()->route('public.article.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param ArticleRequest $request
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function delete(ArticleRequest $request, $id)
-    {
-        $article = $this->articleRepository->first($id);
-
-        $userId = $article->user_id;
-
-        $this->authorize('delete', $article);
-
-        $this->deleteArticle($request, $article);
-
-        return redirect()->route('public.userCenters.articles',['user' => $userId]);
-    }
 
     /**
      * Sync up the list of tags in the database.
@@ -263,7 +244,11 @@ class ArticlesController extends Controller
      */
     private function updateArticle(ArticleRequest $request, $article)
     {
-        $article = $this->articleRepository->update($request->all(), $article);
+        $input = $request->all();
+
+        $input['comments'] = isset($input['comments']) ? $input['comments'] : 0;
+
+        $article = $this->articleRepository->update($input, $article);
 
         $this->logActivity($request, $article, 'Article "' . $article->title . '" was updated');
 

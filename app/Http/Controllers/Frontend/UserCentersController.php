@@ -21,7 +21,7 @@ class UserCentersController extends Controller
     {
         $this->authorize('self',$user);
 
-        $activities = $user->activities()->paginate(6);
+        $activities = $user->activities()->orderBy('created_at','dsc')->paginate(6);
 
         return view('public.userCenters.show',compact('activities'));
     }
