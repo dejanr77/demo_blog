@@ -9,6 +9,7 @@ use App\Repositories\Articles\ArticleRepositoryInterface;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Services\ArticleService;
 
 class PreviewsController extends Controller
 {
@@ -18,7 +19,7 @@ class PreviewsController extends Controller
     private $articleRepository;
 
     /**
-     * Create a new controller instance.
+     * Create a new authentication controller instance.
      *
      * @param ArticleRepositoryInterface $articleRepository
      */
@@ -26,6 +27,7 @@ class PreviewsController extends Controller
     {
         $this->articleRepository = $articleRepository;
     }
+
 
     /**
      * Display the specified resource.
@@ -47,8 +49,8 @@ class PreviewsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id)
     {
@@ -62,17 +64,18 @@ class PreviewsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  ArticleRequest  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param ArticleRequest $request
+     * @param $id
+     * @param ArticleService $articleService
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(ArticleRequest $request, $id)
+    public function update(ArticleRequest $request, $id, ArticleService $articleService)
     {
         $article = $this->articleRepository->first($id);
 
         $this->authorize('update', $article);
 
-        $this->updateArticle($request, $article);
+        $articleService->updateArticle($request, $article);
 
         return redirect()->route('public.previews.show',['previews' => $article->slug]);
     }
@@ -80,88 +83,20 @@ class PreviewsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
-     * @param  DeleteArticleRequest $request
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @param DeleteArticleRequest $request
+     * @param ArticleService $articleService
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function delete($id, DeleteArticleRequest $request)
+    public function delete($id, DeleteArticleRequest $request, ArticleService $articleService)
     {
         $article = $this->articleRepository->first($id);
 
-        $userId = $article->user_id;
-
         $this->authorize('delete', $article);
 
-        $this->deleteArticle($request, $article);
+        $articleService->deleteArticle($request, $article);
 
-        return redirect()->route('public.userCenters.articles',['id' => $userId]);
+        return redirect()->route('public.userCenters.articles',['user' => $article->user_id]);
     }
 
-    /**
-     * Log activity for user.
-     *
-     * @param ArticleRequest $request
-     * @param Article $article
-     * @param $content
-     */
-    private function logActivity(ArticleRequest $request, Article $article, $content)
-    {
-        $request->user()->activities()->create([
-            'ip_address' => $request->ip(),
-            'type' => class_basename($article),
-            'type_id' => $article->id,
-            'content' => $content
-        ]);
-    }
-
-    /**
-     * Sync up the list of tags in the database.
-     *
-     * @param Article $article
-     * @param array $tags
-     * @internal param ArticleRequest $request
-     */
-    private function syncTags(Article $article, array $tags)
-    {
-        $article->tags()->sync($tags);
-    }
-
-    /**
-     * Update an article.
-     *
-     * @param ArticleRequest $request
-     * @param $article
-     * @return mixed
-     */
-    private function updateArticle(ArticleRequest $request, $article)
-    {
-        $input = $request->all();
-
-        $input['comments'] = isset($input['comments']) ? $input['comments'] : 0;
-
-        $article = $this->articleRepository->update($input, $article);
-
-        $this->logActivity($request, $article, 'Article "' . $article->title . '" was updated');
-
-        $this->syncTags($article, $request->input('tags'));
-
-        flash()->overlay('Article "'.$article->title.'" has been successfully updated.', 'Article updating');
-
-        return $article;
-    }
-
-    /**
-     * Delete an article
-     *
-     * @param ArticleRequest $request
-     * @param $article
-     */
-    private function deleteArticle(ArticleRequest $request, $article)
-    {
-        $this->logActivity($request, $article, 'Article "' . $article->title . '" was deleted');
-
-        flash()->overlay('Article "'.$article->title.'" has been successfully deleted.', 'Article deleting');
-
-        $this->articleRepository->delete($article);
-    }
 }

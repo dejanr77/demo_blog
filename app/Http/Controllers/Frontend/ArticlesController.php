@@ -6,10 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ArticleRequest;
 use App\Models\Article;
 use App\Repositories\Articles\ArticleRepositoryInterface;
+use App\Services\ArticleService;
 use App\User;
 
 use App\Http\Requests;
-use Gate;
 use Illuminate\Http\Request;
 
 class ArticlesController extends Controller
@@ -32,58 +32,41 @@ class ArticlesController extends Controller
         $this->articleRepository = $articleRepository;
     }
 
-    public function status($id,Request $request)
+    /**
+     * Changes the value of the status column in the database for the specified article.
+     *
+     * @param Article $article
+     * @param Request $request
+     * @param ArticleService $articleService
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
+    public function status(Article $article,Request $request, ArticleService $articleService)
     {
-        $article = $this->articleRepository->first($id);
-
-        if ($request->ajax() || $request->wantsJson()) {
-            if (empty($article))
-                return response()->json(404);
-
-            if (Gate::denies('status', $article))
-                return response()->json(403);
-
-            if($article->update(['status' => $request->input('value')])) return response()->json(200);
-
-            return response()->json(500);
-        }
-        $this->authorize('status',$article);
-
-        $article->update(['status' => $request->input('value')]);
-
-        return redirect()->route('public.userCenters.articles',['user' => $article->user_id]);
+        return $articleService->changesValueInDb('status', $request, $article);
     }
 
-    public function comments($id, Request $request)
+    /**
+     * Changes the value of the comments column in the database for the specified article.
+     *
+     * @param Article $article
+     * @param Request $request
+     * @param ArticleService $articleService
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function comments(Article $article, Request $request, ArticleService $articleService)
     {
-        $article = $this->articleRepository->first($id);
-
-        if ($request->ajax() || $request->wantsJson()) {
-            if (empty($article))
-                return response()->json(404);
-
-            if (Gate::denies('comments', $article))
-                return response()->json(403);
-
-            if($article->update(['comments' => $request->input('value')])) return response()->json(200);
-
-            return response()->json(500);
-        }
-        $this->authorize('comments',$article);
-
-        $article->update(['comments' => $request->input('value')]);
-
-        return redirect()->route('public.userCenters.articles',['user' => $article->user_id]);
+        return $articleService->changesValueInDb('comments', $request, $article);
     }
 
     /**
      * Display a listing of the article.
      *
+     * @param ArticleRepositoryInterface $articleRepository
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(ArticleRepositoryInterface $articleRepository)
     {
-        $articles = $this->articleRepository->with(['user.profile'])->allPublishedArticles(4);
+        $articles = $articleRepository->with(['user.profile'])->allPublishedArticles(4);
 
         return view('public.articles.index', compact('articles'));
     }
@@ -92,13 +75,14 @@ class ArticlesController extends Controller
      * Display a listing of the article that written by a user.
      *
      * @param $name
+     * @param ArticleRepositoryInterface $articleRepository
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function user($name)
+    public function user($name, ArticleRepositoryInterface $articleRepository)
     {
         $user = User::where('name', $name)->first();
 
-        $articles = $this->articleRepository->allPublishedArticlesForUser($user, 6);
+        $articles = $articleRepository->allPublishedArticlesForUser($user, 6);
 
         return view('public.articles.user', compact('articles','user'));
     }
@@ -116,12 +100,13 @@ class ArticlesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  ArticleRequest  $request
+     * @param  ArticleRequest $request
+     * @param ArticleService $articleService
      * @return \Illuminate\Http\Response
      */
-    public function store(ArticleRequest $request)
+    public function store(ArticleRequest $request, ArticleService $articleService)
     {
-        $article = $this->createArticle($request);
+        $article = $articleService->createArticle($request);
 
         return redirect()->route('public.userCenters.articles',['user' => $article->user_id]);
     }
@@ -130,11 +115,12 @@ class ArticlesController extends Controller
      * Display the specified resource.
      *
      * @param $slug
+     * @param ArticleRepositoryInterface $articleRepository
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show($slug)
+    public function show($slug, ArticleRepositoryInterface $articleRepository)
     {
-        $article = $this->articleRepository->findPublishedArticleWithSlug($slug);
+        $article = $articleRepository->findPublishedArticleWithSlug($slug);
 
         $tag_list_with_count = $article->tags()->withCount('articles')->get();
 
@@ -158,14 +144,15 @@ class ArticlesController extends Controller
      * Update the specified resource in storage.
      *
      * @param ArticleRequest $request
+     * @param ArticleService $articleService
      * @param Article $article
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(ArticleRequest $request, Article $article)
+    public function update(ArticleRequest $request, ArticleService $articleService, Article $article)
     {
         $this->authorize('update', $article);
 
-        $this->updateArticle($request, $article);
+        $articleService->updateArticle($request, $article);
 
         return redirect()->route('public.article.show',['article' => $article->slug]);
     }
@@ -174,103 +161,19 @@ class ArticlesController extends Controller
      * Remove the specified resource from storage.
      *
      * @param ArticleRequest $request
+     * @param ArticleService $articleService
      * @param  Article $article
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ArticleRequest $request, Article $article)
+    public function destroy(ArticleRequest $request, ArticleService $articleService, Article $article)
     {
         $this->authorize('delete', $article);
 
-        $this->deleteArticle($request, $article);
+        $articleService->deleteArticle($request, $article);
 
         return redirect()->route('public.article.index');
     }
 
 
-    /**
-     * Sync up the list of tags in the database.
-     *
-     * @param Article $article
-     * @param array $tags
-     * @internal param ArticleRequest $request
-     */
-    private function syncTags(Article $article, array $tags)
-    {
-        $article->tags()->sync($tags);
-    }
 
-    /**
-     * Log activity for user.
-     *
-     * @param ArticleRequest $request
-     * @param Article $article
-     * @param $content
-     */
-    private function logActivity(ArticleRequest $request, Article $article, $content)
-    {
-        $request->user()->activities()->create([
-            'ip_address' => $request->ip(),
-            'type' => class_basename($article),
-            'type_id' => $article->id,
-            'content' => $content
-        ]);
-    }
-
-    /**
-     * Save a new article.
-     *
-     * @param ArticleRequest $request
-     * @return mixed
-     */
-    private function createArticle(ArticleRequest $request)
-    {
-        $article = $this->articleRepository->createByUser('articles', $request->all());
-
-        $this->logActivity($request, $article, 'Article "' . $article->title . '" was created');
-
-        $this->syncTags($article, $request->input('tags'));
-
-        flash()->overlay('Article "'.$article->title.'" has been successfully created.', 'Article creating');
-
-        return $article;
-    }
-
-    /**
-     * Update an article.
-     *
-     * @param ArticleRequest $request
-     * @param $article
-     * @return mixed
-     */
-    private function updateArticle(ArticleRequest $request, $article)
-    {
-        $input = $request->all();
-
-        $input['comments'] = isset($input['comments']) ? $input['comments'] : 0;
-
-        $article = $this->articleRepository->update($input, $article);
-
-        $this->logActivity($request, $article, 'Article "' . $article->title . '" was updated');
-
-        $this->syncTags($article, $request->input('tags'));
-
-        flash()->overlay('Article "'.$article->title.'" has been successfully updated.', 'Article updating');
-
-        return $article;
-    }
-
-    /**
-     * Delete an article
-     *
-     * @param ArticleRequest $request
-     * @param $article
-     */
-    private function deleteArticle(ArticleRequest $request, $article)
-    {
-        $this->logActivity($request, $article, 'Article "' . $article->title . '" was deleted');
-
-        flash()->overlay('Article "'.$article->title.'" has been successfully deleted.', 'Article deleting');
-
-        $this->articleRepository->delete($article);
-    }
 }

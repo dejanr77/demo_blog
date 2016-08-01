@@ -38,20 +38,20 @@
                                             </td>
                                             @if($article->status)
                                                 <td class="status">
-                                                    <a href="{{ route('public.article.status',['article' => $article->id]) }}" class="text-success article-opt"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                                    <a href="{{ route('public.article.status',['article' => $article->id, 'value' => 0]) }}" class="text-success article-opt"><i class="fa fa-check" aria-hidden="true"></i></a>
                                                 </td>
                                             @else
                                                 <td class="status">
-                                                    <a href="{{ route('public.article.status',['article' => $article->id]) }}" class="article-opt"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                                    <a href="{{ route('public.article.status',['article' => $article->id, 'value' => 1]) }}" class="article-opt"><i class="fa fa-times" aria-hidden="true"></i></a>
                                                 </td>
                                             @endif
                                             @if($article->comments)
                                                 <td class="comments" >
-                                                    <a href="{{ route('public.article.comments',['article' => $article->id]) }}" class="text-success article-opt"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                                    <a href="{{ route('public.article.comments',['article' => $article->id, 'value' => 0]) }}" class="text-success article-opt"><i class="fa fa-check" aria-hidden="true"></i></a>
                                                 </td>
                                             @else
                                                 <td class="comments">
-                                                    <a href="{{ route('public.article.comments',['article' => $article->id]) }}" class="article-opt"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                                    <a href="{{ route('public.article.comments',['article' => $article->id, 'value' => 1]) }}" class="article-opt"><i class="fa fa-times" aria-hidden="true"></i></a>
                                                 </td>
                                             @endif
                                             <td>
@@ -126,7 +126,9 @@
 
                 user_modal.modal();
 
-                user_modal.off('show.bs.modal');
+                user_modal.on('hidden.bs.modal', function () {
+                    window.location.reload();
+                })
             }
 
             $('.preview_article').on('click',function(e){
@@ -154,7 +156,8 @@
                 var self = $(this),
                         child = self.children('i'),
                         url = self.attr('href'),
-                        td = self.parent('td');
+                        td = self.parent('td'),
+                        value;
 
                 if(child.hasClass('fa-times')) {
                     child.removeClass('fa-times').addClass('fa-spinner fa-spin');
@@ -163,7 +166,6 @@
                     child.removeClass('fa-check').addClass('fa-spinner fa-spin');
                     value = 0;
                 }
-
 
                 $.ajax({
                     type: 'get',
@@ -179,7 +181,6 @@
                         } else {
                             child.removeClass('fa-spinner fa-spin').addClass('fa-times');
                         }
-
                     }else{
                         if(value){
                             child.removeClass('fa-spinner fa-spin').addClass('fa-times');
