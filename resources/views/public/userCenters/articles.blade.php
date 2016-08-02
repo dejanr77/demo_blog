@@ -132,9 +132,7 @@
 
                 user_modal.modal();
 
-                user_modal.on('hidden.bs.modal', function () {
-                    window.location.reload();
-                })
+                user_modal.off('show.bs.modal');
             }
 
             $('.preview_article').on('click',function(e){
@@ -146,14 +144,6 @@
 
             });
 
-            $('.edit_article').on('click',function(e){
-                e.preventDefault();
-
-                var url = $(this).attr('href');
-
-                runModel('.user-center-modal','Edit Article', url);
-
-            });
 
 
             $('.article-opt').on('click',function(e){

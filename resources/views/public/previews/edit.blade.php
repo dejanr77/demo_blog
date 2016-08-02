@@ -32,10 +32,19 @@
     <!-- Main Content -->
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                {!! Form::model($article,['method'=>'PATCH','url' => 'previews/'.$article->id,'role' => 'form']) !!}
-                @include('public.articles.partials.form',['submitText' => 'Update Article'])
-                {!! Form::close() !!}
+            <div class="col-md-3">
+                @include('public.userCenters.partials.sidebar')
+            </div>
+            <div class="col-md-9">
+                <div class="panel panel-default panel-user-info">
+                    <div class="panel-body">
+                        {!! Form::model($article,['method'=>'PATCH','url' => 'previews/'.$article->id,'role' => 'form']) !!}
+                        @include('public.articles.partials.form',['submitText' => 'Update Article'])
+                        {!! Form::close() !!}
+
+                        <a class="btn btn-default" href="{{ route('public.userCenters.articles',['user' => $article->user_id]) }}">Back to Articles</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
