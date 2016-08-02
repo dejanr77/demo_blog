@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title','about')
+@section('title','About me')
 
 @section('header')
     <!-- Page Header -->

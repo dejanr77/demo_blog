@@ -41,7 +41,7 @@ class PreviewsController extends Controller
 
         $this->authorize('show',$article);
 
-        $tag_list_with_count = $article->tags()->withCount('articles')->get();
+        $tag_list_with_count = $this->articleRepository->getTagsWitCount($article);
 
         return view('public.previews.show', compact('article', 'tag_list_with_count'));
     }
@@ -54,11 +54,13 @@ class PreviewsController extends Controller
      */
     public function edit($id)
     {
+        $currentUser = request()->user();
+
         $article = $this->articleRepository->first($id);
 
         $this->authorize('edit', $article);
 
-        return view('public.previews.edit', compact('article'));
+        return view('public.previews.edit', compact('article','currentUser'));
     }
 
     /**
@@ -77,7 +79,7 @@ class PreviewsController extends Controller
 
         $articleService->updateArticle($request, $article);
 
-        return redirect()->route('public.previews.show',['previews' => $article->slug]);
+        return redirect()->route('public.userCenters.articles',['user' => $article->user_id]);
     }
 
     /**

@@ -30,8 +30,19 @@ class Tag extends Model
      * @var array
      */
     protected $fillable = [
-        'name'
+        'name',
+        'ip_address'
     ];
+
+    /**
+     * An article is owned by a user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 
     /**
      * Get the articles associated with a given tag.

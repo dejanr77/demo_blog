@@ -32,6 +32,10 @@
                                 <h2 class="post-title">
                                     {{ $article->title }}
                                 </h2>
+                                <span>
+                                    @include('public.articles.partials.meta')
+                                </span>
+                                <br/><br/>
                                 <h3 class="post-subtitle">
                                     {{ $article->excerpt }}
                                 </h3>

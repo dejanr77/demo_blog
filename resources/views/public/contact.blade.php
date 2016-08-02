@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title','contact')
+@section('title','Contact me')
 
 @section('header')
     <header class="intro-header" style="background-image: url('{{ url('img/contact-bg.jpg') }}')">

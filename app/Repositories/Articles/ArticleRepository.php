@@ -1,6 +1,7 @@
 <?php
 namespace App\Repositories\Articles;
 
+use App\Models\Article;
 use App\Repositories\Db\Repository;
 use Carbon\Carbon;
 
@@ -19,6 +20,16 @@ class ArticleRepository extends Repository implements  ArticleRepositoryInterfac
     {
         $this->model = new $this->namespace();
     }
+
+    public function getTagsWitCount(Article $article,$columns = array('*'))
+    {
+        return $article->tags()
+            ->withCount(['articles' => function ($query) {
+                $query->where('published_at','<=',Carbon::now());
+            }])
+            ->get($columns);
+    }
+
 
     public function allPublishedArticles($perPage = 8, $columns = array('*'), $pageName = 'page')
     {

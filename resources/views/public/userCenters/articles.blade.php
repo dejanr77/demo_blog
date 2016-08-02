@@ -1,9 +1,9 @@
 @extends('layouts.public')
 
-@section('title','Articles | articles')
+@section('title','User Center | articles')
 
 @section('header')
-    @include('public.userCenters.partials.header',['headingText' => 'User Center - Articles'])
+    @include('public.userCenters.partials.header',['headingText' => 'User Center | Articles'])
 @endsection
 
 @section('content')
@@ -36,15 +36,22 @@
                                             <td>
                                                 {{ $article->present()->shortenTitle() }}
                                             </td>
-                                            @if($article->status)
-                                                <td class="status">
-                                                    <a href="{{ route('public.article.status',['article' => $article->id, 'value' => 0]) }}" class="text-success article-opt"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                            @if($article->is_published)
+                                                <td class="text-success">
+                                                    published
                                                 </td>
                                             @else
-                                                <td class="status">
-                                                    <a href="{{ route('public.article.status',['article' => $article->id, 'value' => 1]) }}" class="article-opt"><i class="fa fa-times" aria-hidden="true"></i></a>
-                                                </td>
+                                                @if($article->status)
+                                                    <td class="status">
+                                                        <a href="{{ route('public.article.status',['article' => $article->id, 'value' => 0]) }}" class="text-success article-opt"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                                    </td>
+                                                @else
+                                                    <td class="status">
+                                                        <a href="{{ route('public.article.status',['article' => $article->id, 'value' => 1]) }}" class="article-opt"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                                    </td>
+                                                @endif
                                             @endif
+
                                             @if($article->comments)
                                                 <td class="comments" >
                                                     <a href="{{ route('public.article.comments',['article' => $article->id, 'value' => 0]) }}" class="text-success article-opt"><i class="fa fa-check" aria-hidden="true"></i></a>
@@ -62,7 +69,7 @@
                                             </td>
                                             <td class="text-right">
                                                 <a class="preview_article" href="{{ route('public.previews.show',['previews' => $article->slug]) }}" target="_blank"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
-                                                <a class="edit_article" href="{{ route('public.previews.edit',['previews' => $article->id]) }}" target="_blank"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                                <a class="edit_article" href="{{ route('public.previews.edit',['previews' => $article->id]) }}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                                                 <a href="{{ route('public.previews.delete',['previews' => $article->id]) }}"><i class="fa fa-ban"></i> </a>
                                             </td>
                                         </tr>
@@ -126,9 +133,7 @@
 
                 user_modal.modal();
 
-                user_modal.on('hidden.bs.modal', function () {
-                    window.location.reload();
-                })
+                user_modal.off('show.bs.modal');
             }
 
             $('.preview_article').on('click',function(e){
@@ -140,14 +145,7 @@
 
             });
 
-            $('.edit_article').on('click',function(e){
-                e.preventDefault();
 
-                var url = $(this).attr('href');
-
-                runModel('.user-center-modal','Edit Article', url);
-
-            });
 
 
             $('.article-opt').on('click',function(e){

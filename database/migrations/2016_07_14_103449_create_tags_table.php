@@ -14,9 +14,13 @@ class CreateTagsTable extends Migration
     {
         Schema::create('tags', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');;
+            $table->integer('user_id')->unsigned();
+            $table->string('name');
             $table->string('slug')->unique('slug');
+            $table->string('ip_address',32);
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
 
         Schema::create('article_tag', function (Blueprint $table) {

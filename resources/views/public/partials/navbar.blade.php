@@ -21,6 +21,9 @@
                 <li class="{{ set_active('article') }}">
                     <a  href="{{ route('public.article.index') }}">Articles</a>
                 </li>
+                <li class="{{ set_active('tags') }}">
+                    <a  href="{{ route('public.tags.index') }}">Tags</a>
+                </li>
                 <li class="{{ set_active('about') }}">
                     <a  href="{{ route('public.about') }}">About</a>
                 </li>

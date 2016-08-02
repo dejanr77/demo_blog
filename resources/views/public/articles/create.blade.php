@@ -45,6 +45,13 @@
         $(document).ready(function() {
             $(".selectTags").select2({
                 placeholder: "Select a tag",
+                tags: true,
+                createTag: function(newTag) {
+                    return {
+                        id: 'new:' + newTag.term,
+                        text: newTag.term + ' (new)'
+                    };
+                },
                 maximumSelectionLength: 5
             });
             var editor_config = {
