@@ -10,10 +10,13 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
+                        <a class="btn btn-default" href="{{ route('public.article.index') }}"><i class="fa fa-chevron-left" aria-hidden="true"></i> Back to Articles</a>
                         <h1>{{ $article->title }}</h1>
-                        <p class="post-meta">
-                            Posted by <a href="{{ route('public.article.user',['name' => $article->user->name ]) }}">{{ $article->user->present()->publicFullName() }}</a> on {{ $article->present()->publishedAtWithFormatForPublicShow()  }}
-                        </p>
+                        <span class="meta">
+                            Posted by <a href="{{ route('public.article.user',['name' => $article->user->name ]) }}">{{ $article->user->present()->publicFullName() }}</a> on {{ $article->present()->publishedAtWithFormatForPublicShow()  }}<br/><br/>
+                            @include('public.articles.partials.meta')
+                        </span>
+                        <br/>
                         @can('edit', $article)
                         <a class="btn btn-default btn-xs pull-left" href="{{ route('public.article.edit',['article' => $article->id]) }}"> <i class="fa fa-edit"></i> Update</a>
                         @endcan

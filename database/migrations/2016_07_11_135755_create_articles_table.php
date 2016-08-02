@@ -17,6 +17,7 @@ class CreateArticlesTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->string('title');
             $table->string('slug')->unique('slug');
+            $table->integer('view_count')->unsigned()->default(0);
             $table->boolean('status')->default(false);
             $table->boolean('comments')->default(false);
             $table->boolean('is_published')->default(false);

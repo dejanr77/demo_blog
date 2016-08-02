@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title','Articles | '.$tag->name)
+@section('title','Articles with tag | '.$tag->name)
 
 @section('header')
     <!-- Page Header -->
@@ -12,7 +12,7 @@
                     <div class="site-heading">
                         <h1>Tag '{{ $tag->name }}'</h1>
                         <hr class="small">
-                        <p>All articles with this tag</p>
+                        <p>All article with this tag</p>
                     </div>
                 </div>
             </div>
@@ -32,6 +32,10 @@
                                 <h2 class="post-title">
                                     {{ $article->title }}
                                 </h2>
+                                <span>
+                                    @include('public.articles.partials.meta')
+                                </span>
+                                <br/><br/>
                                 <h3 class="post-subtitle">
                                     {{ $article->excerpt }}
                                 </h3>

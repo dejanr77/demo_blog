@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title','Blog')
+@section('title','Articles')
 
 @section('header')
     <!-- Page Header -->
@@ -32,11 +32,16 @@
                                 <h2 class="post-title">
                                     {{ $article->title }}
                                 </h2>
+                                <span>
+                                    @include('public.articles.partials.meta')
+                                </span>
+                                <br/><br/>
                                 <h3 class="post-subtitle">
                                     {{ $article->excerpt }}
                                 </h3>
                             </a>
                             <p class="post-meta">Posted by <a href="{{ route('public.article.user',['name' => $article->user->name ]) }}">{{ $article->user->present()->publicFullName() }}</a> on {{ $article->present()->publishedAtWithFormatForPublicShow() }}</p>
+
                         </div>
                         <hr>
                     @endforeach

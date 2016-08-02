@@ -1,9 +1,9 @@
 @extends('layouts.public')
 
-@section('title','Articles | articles')
+@section('title','User Center | articles')
 
 @section('header')
-    @include('public.userCenters.partials.header',['headingText' => 'User Center - Articles'])
+    @include('public.userCenters.partials.header',['headingText' => 'User Center | Articles'])
 @endsection
 
 @section('content')
@@ -51,6 +51,7 @@
                                                     </td>
                                                 @endif
                                             @endif
+
                                             @if($article->comments)
                                                 <td class="comments" >
                                                     <a href="{{ route('public.article.comments',['article' => $article->id, 'value' => 0]) }}" class="text-success article-opt"><i class="fa fa-check" aria-hidden="true"></i></a>
@@ -143,6 +144,7 @@
                 runModel('.user-center-modal','Preview Article', url);
 
             });
+
 
 
 
