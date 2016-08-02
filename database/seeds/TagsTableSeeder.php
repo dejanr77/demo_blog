@@ -16,7 +16,8 @@ class TagsTableSeeder extends Seeder
         $admin = \App\User::find(1);
 
         $admin->tags()->create([
-            'name' => 'demo'
+            'name' => 'demo',
+            'ip_address' => '127.0.0.1'
         ]);
 
     }

@@ -164,7 +164,8 @@ class ArticleService
             if (starts_with($vtag, 'new:'))
             {
                 $tag = $request->user()->tags()->create([
-                    'name' => substr($vtag, 4)
+                    'name' => substr($vtag, 4),
+                    'ip_address' => $request->ip()
                 ]);
 
                 $this->userActivity->log($request, $tag, 'Tag "' . $tag->name . '" was created');

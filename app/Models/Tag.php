@@ -30,7 +30,8 @@ class Tag extends Model
      * @var array
      */
     protected $fillable = [
-        'name'
+        'name',
+        'ip_address'
     ];
 
     /**
