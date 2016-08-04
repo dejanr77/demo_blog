@@ -18,8 +18,8 @@ class CreateArticlesTable extends Migration
             $table->string('title');
             $table->string('slug')->unique('slug');
             $table->integer('view_count')->unsigned()->default(0);
-            $table->boolean('status')->default(false);
-            $table->boolean('comments')->default(false);
+            $table->boolean('status_active')->default(false);
+            $table->boolean('status_comment')->default(false);
             $table->boolean('is_published')->default(false);
             $table->text('excerpt');
             $table->text('body');

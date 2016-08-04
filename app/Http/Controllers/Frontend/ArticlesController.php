@@ -42,7 +42,7 @@ class ArticlesController extends Controller
      */
     public function status(Article $article,Request $request, ArticleService $articleService)
     {
-        return $articleService->changesValueInDb('status', $request, $article);
+        return $articleService->changesValueInDb('status_active', $request, $article);
     }
 
     /**
@@ -55,7 +55,7 @@ class ArticlesController extends Controller
      */
     public function comments(Article $article, Request $request, ArticleService $articleService)
     {
-        return $articleService->changesValueInDb('comments', $request, $article);
+        return $articleService->changesValueInDb('status_comment', $request, $article);
     }
 
     /**

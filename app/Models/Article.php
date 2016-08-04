@@ -35,8 +35,8 @@ class Article extends Model
     protected $fillable = [
         'title',
         'excerpt',
-        'status',
-        'comments',
+        'status_active',
+        'status_comment',
         'body',
         'published_at'
     ];

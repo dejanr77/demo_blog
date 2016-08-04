@@ -57,7 +57,7 @@ class ArticleService
         if (empty($article))
             return response()->json(404);
 
-        if (Gate::denies($type, $article))
+        if (Gate::denies(substr($type,7), $article))
             return response()->json(403);
 
         if ($article->update([ $type => $request->input('value')]))
@@ -82,7 +82,7 @@ class ArticleService
             return $this->ajaxHandler($column, $article, $request);
         }
 
-        if (Gate::denies($column, $article)) throw new AuthorizationException('This action is unauthorized.');
+        if (Gate::denies(substr($column,7), $article)) throw new AuthorizationException('This action is unauthorized.');
 
         $article->update([$column => $request->input('value')]);
 
@@ -123,7 +123,7 @@ class ArticleService
 
         $tags = $this->ifItHasNewTagsCreate($request);
 
-        $input['comments'] = isset($input['comments']) ? $input['comments'] : 0;
+        $input['status_comment'] = isset($input['status_comment']) ? $input['status_comment'] : 0;
 
         $article = $this->articleRepository->update($input, $article);
 

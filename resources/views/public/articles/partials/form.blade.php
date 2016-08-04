@@ -32,11 +32,11 @@
 
                 <!-- Comments Form Input -->
                 <div class="form-group">
-                    {!! Form::checkbox('comments', 1, null,['id' => 'comments_article']) !!}
+                    {!! Form::checkbox('status_comment', 1, null,['id' => 'comments_article']) !!}
                     {!! Form::label('comments_article',' Set Comments') !!}
-                    @if ($errors->has('status'))
+                    @if ($errors->has('status_comment'))
                         <span class="help-block">
-                            <strong class="text-danger">{{ $errors->first('status') }}</strong>
+                            <strong class="text-danger">{{ $errors->first('status_comment') }}</strong>
                         </span>
                     @endif
                 </div>
