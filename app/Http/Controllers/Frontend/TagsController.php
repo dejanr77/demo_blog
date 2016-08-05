@@ -50,8 +50,10 @@ class TagsController extends Controller
     {
         $tag = $this->tagRepository->findTagWithSlug($slug);
 
-        $articles = $tag->articles()->where('published_at','<=',Carbon::now())->paginate(4);
+        $articles = $this->tagRepository->allPublishedArticlesForTag($tag, 6);
 
         return view('public.tags.articles', compact('tag', 'articles'));
     }
+
+
 }

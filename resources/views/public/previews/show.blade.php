@@ -35,18 +35,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    @if(count($tag_list_with_count) > 0)
-                        <h4>Tags:</h4>
-                        <div>
-                            @foreach($tag_list_with_count as $tag)
-                                <a class="btn btn-default" href="#">{{ $tag->name }} <sup>({{ $tag->articles_count }})</sup></a>
-                            @endforeach
-                        </div>
-                    @else
-                        There are no tags.
-                    @endif
+                    @include('public.articles.partials.tags',['setTagUrl' => false])
                     <br/>
                     {!! $article->body !!}
+                    @include('public.articles.partials.comments')
                 </div>
             </div>
         </div>

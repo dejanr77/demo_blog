@@ -63,8 +63,8 @@
                                             @endif
                                             <td>
                                                 <i class="fa fa-heart"></i> 6
-                                                <i class="fa fa-eye"></i> 21
-                                                <i class="fa fa-comments"></i> 3
+                                                <i class="fa fa-eye"></i> {{ $article->view_count }}
+                                                <i class="fa fa-comments"></i> {{ $article->comment_count }}
                                                 <i class="fa fa-calendar"></i> {{ $article->created_at->diffForHumans() }}
                                             </td>
                                             <td class="text-right">

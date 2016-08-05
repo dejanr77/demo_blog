@@ -3,6 +3,7 @@
 namespace App\Repositories\Tags;
 
 
+use App\Models\Tag;
 use App\Repositories\RepositoryInterface;
 
 interface TagRepositoryInterface extends RepositoryInterface
@@ -19,4 +20,11 @@ interface TagRepositoryInterface extends RepositoryInterface
      * @return mixed
      */
     public function findTagWithSlug($slug);
+
+    /**
+     * @param Tag $tag
+     * @param $prePage
+     * @return mixed
+     */
+    public function allPublishedArticlesForTag(Tag $tag, $prePage = 8);
 }

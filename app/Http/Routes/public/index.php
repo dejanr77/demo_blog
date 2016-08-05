@@ -11,6 +11,8 @@ Route::group([
 
     require (__DIR__ . '/tag/index.php');
 
+    require (__DIR__ . '/comment/index.php');
+
     Route::group([
         'middleware' => 'auth'
     ],function() {

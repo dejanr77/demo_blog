@@ -124,9 +124,11 @@ class ArticlesController extends Controller
 
         $tag_list_with_count = $articleRepository->getTagsWitCount($article);
 
+        $comments = $article->comments()->latest()->paginate(8);
+
         $article->increment('view_count');
 
-        return view('public.articles.show', compact('article', 'tag_list_with_count'));
+        return view('public.articles.show', compact('article', 'tag_list_with_count', 'comments'));
     }
 
     /**

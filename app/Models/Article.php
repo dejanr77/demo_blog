@@ -83,6 +83,16 @@ class Article extends Model
     }
 
     /**
+     * Get comments for article.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function comments()
+    {
+        return $this->hasMany('App\Models\Comment');
+    }
+
+    /**
      * Get the tags associated with a given articles.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
