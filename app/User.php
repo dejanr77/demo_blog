@@ -40,6 +40,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Get likes for user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function likes()
+    {
+        return $this->hasMany('App\Models\like');
+    }
+
+    /**
      * Get tags for user
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

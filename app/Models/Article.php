@@ -103,6 +103,16 @@ class Article extends Model
     }
 
     /**
+     * Get all of the article's likes.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function likes()
+    {
+        return $this->morphMany('App\Models\Like', 'likeable');
+    }
+
+    /**
      * Get a list of tags associated with the current article.
      *
      * @return array
