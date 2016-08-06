@@ -58,11 +58,11 @@
                 var self = $(this),
                         comment_list = $('.comment_list'),
                         button = self.find('input[type="submit"]'),
-                        comment_body = self.find('textarea[name="body"]'),
+                        comment_body = self.find('textarea[name="body"]').val(),
                         url = self.attr('action'),
                         data = self.serialize();
 
-                if(comment_body.val() === '') {
+                if(comment_body === '') {
                     self.find('p').remove();
                     self.prepend('<p class="text-danger">Please enter your comment.</p>');
                     setTimeout(function(){
@@ -77,7 +77,6 @@
                         'dataType': 'json',
                         'data': data
                     }).done(function(data){
-                        comment_body.val('');
                         comment_list.prepend(data);
                         $('body').animate( {
                             scrollTop: comment_list.offset().top - 10
@@ -91,15 +90,8 @@
                         },2000);
                     });
                 }
-
-
             });
         });
-
     </script>
-
-
-
-
 @endsection
 

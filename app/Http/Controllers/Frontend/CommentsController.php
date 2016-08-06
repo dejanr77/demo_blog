@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Requests\CommentRequest;
 use App\Models\Article;
+use App\Services\CommentService;
 use App\Services\UserActivityService;
-use Gate;
-use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -26,35 +25,19 @@ class CommentsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param CommentRequest $request
-     * @param UserActivityService $userActivity
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @param CommentService $commentService
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(CommentRequest $request, UserActivityService $userActivity)
+    public function store(CommentRequest $request, CommentService $commentService)
     {
         $article = Article::findOrFail($request->input('article_id'));
 
         if ($request->ajax() || $request->wantsJson())
         {
-            if (empty($article)) return response()->json(404);
-
-            if (!$article->status_comment) return response()->json(403);
-
-            $article->increment('comment_count');
-
-            $comment = $request->user()->comments()->create($request->all());
-
-            $comment = view('public.articles.comments.show', compact('comment'))->render();
-
-            if ($comment) return response()->json($comment,200);
-
-            return response()->json(500);
+            return $commentService->forAjaxCreateComment($article, $request);
         }
 
-        $article->increment('comment_count');
-
-        $comment = $request->user()->comments()->create($request->all());
-
-        $userActivity->log($request,$comment,'The new comment has sent.');
+        $commentService->createComment($article,$request);
 
         return redirect()->route('public.article.show',['article' => $article->slug,'#comment_area']);
     }
