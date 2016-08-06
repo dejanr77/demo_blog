@@ -43,7 +43,9 @@ class PreviewsController extends Controller
 
         $tag_list_with_count = $this->articleRepository->getTagsWitCount($article);
 
-        return view('public.previews.show', compact('article', 'tag_list_with_count'));
+        $comments = $article->comments()->latest()->paginate(4);
+
+        return view('public.previews.show', compact('article', 'tag_list_with_count', 'comments'));
     }
 
     /**

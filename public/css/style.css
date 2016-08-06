@@ -102,3 +102,47 @@
     font-size: 14px;
 }
 
+.comment {
+    padding: 15px;
+    background: #eee;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    margin-bottom: 15px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.comment_body {
+    margin-bottom: 15px;
+}
+
+.comment_footer {
+    overflow: hidden;
+}
+
+.comment_footer a {
+    text-decoration: none;
+    padding-right: 15px;
+}
+
+.comment_footer a:hover,
+.comment_footer a:focus {
+    text-decoration: none;
+}
+.comment_user {
+    margin-bottom: 15px;
+}
+
+.comment_user img{
+    font-size: 14px;
+    background: #eee;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+.comment_user span{
+    font-size: 16px;
+    padding-left: 15px;
+}
+
+

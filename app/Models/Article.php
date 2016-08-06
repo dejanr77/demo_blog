@@ -35,8 +35,8 @@ class Article extends Model
     protected $fillable = [
         'title',
         'excerpt',
-        'status',
-        'comments',
+        'status_active',
+        'status_comment',
         'body',
         'published_at'
     ];
@@ -80,6 +80,16 @@ class Article extends Model
     public function user()
     {
         return $this->belongsTo('App\User');
+    }
+
+    /**
+     * Get comments for article.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function comments()
+    {
+        return $this->hasMany('App\Models\Comment');
     }
 
     /**

@@ -10,12 +10,12 @@ class ArticlePolicy
 {
     use HandlesAuthorization;
 
-    public function status(User $user, Article $article)
+    public function active(User $user, Article $article)
     {
         return $user->own($article);
     }
 
-    public function comments(User $user, Article $article)
+    public function comment(User $user, Article $article)
     {
         return $user->own($article);
     }

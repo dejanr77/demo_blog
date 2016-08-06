@@ -3,7 +3,9 @@
 namespace App\Repositories\Tags;
 
 
+use App\Models\Tag;
 use App\Repositories\Db\Repository;
+use Carbon\Carbon;
 
 class TagRepository extends  Repository implements TagRepositoryInterface
 {
@@ -27,5 +29,13 @@ class TagRepository extends  Repository implements TagRepositoryInterface
     {
         return $this->whereSlug($slug)
             ->getFirst();
+    }
+
+    public function allPublishedArticlesForTag(Tag $tag, $prePage = 8)
+    {
+        return $tag->articles()
+            ->where('published_at','<=',Carbon::now())
+            ->orderBy('published_at','dsc')
+            ->paginate($prePage);
     }
 }

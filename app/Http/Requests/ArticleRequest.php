@@ -31,7 +31,7 @@ class ArticleRequest extends Request
         return [
             'title' => 'required|min:3|max:240|regex:/^[A-Za-z0-9\-!\s,\'\"\/@\.:\(\)]+$/|'.$unique_title,
             'excerpt' => 'required|min:3|max:128|regex:/^[A-Za-z0-9\-!\s,\'\"\/@\.:\(\)]+$/',
-            'comments' => 'boolean',
+            'status_comment' => 'boolean',
             'body' => 'required'
         ];
     }

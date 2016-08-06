@@ -39,23 +39,59 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    @if(count($tag_list_with_count) > 0)
-                        <h4>Tags:</h4>
-                        <div>
-                            @foreach($tag_list_with_count as $tag)
-                                <a class="btn btn-default" href="{{ route('public.tags.articles',[ 'slug' => $tag->slug ]) }}">{{ $tag->name }} <sup>({{ $tag->articles_count }})</sup></a>
-                            @endforeach
-                        </div>
-                    @else
-                        There are no tags.
-                    @endif
+                    @include('public.articles.partials.tags',['setTagUrl' => true])
                     <br/>
                     {!! $article->body !!}
+                    @include('public.articles.partials.comments')
                 </div>
             </div>
         </div>
     </article>
 @endsection
 
+@section('footer')
+    @parent
+    <script>
+        $(function(){
+            $('#comment_form').on('submit',function(e){
+                e.preventDefault();
+                var self = $(this),
+                        comment_list = $('.comment_list'),
+                        button = self.find('input[type="submit"]'),
+                        comment_body = self.find('textarea[name="body"]').val(),
+                        url = self.attr('action'),
+                        data = self.serialize();
 
+                if(comment_body === '') {
+                    self.find('p').remove();
+                    self.prepend('<p class="text-danger">Please enter your comment.</p>');
+                    setTimeout(function(){
+                        self.find('p').slideUp();
+                    },2000);
+                }else{
+                    button.attr('disabled', true).fadeTo('slow', 0.5);
+
+                    $.ajax({
+                        'url': url,
+                        'type': 'POST',
+                        'dataType': 'json',
+                        'data': data
+                    }).done(function(data){
+                        comment_list.prepend(data);
+                        $('body').animate( {
+                            scrollTop: comment_list.offset().top - 10
+                        }, 1200);
+                        button.attr('disabled', false).fadeTo('slow', 1);
+                    }).fail(function() {
+                        self.find('p').remove();
+                        self.prepend('<p class="text-danger">Sorry, there was a problem!.</p>');
+                        setTimeout(function(){
+                            self.find('p').slideUp();
+                        },2000);
+                    });
+                }
+            });
+        });
+    </script>
+@endsection
 

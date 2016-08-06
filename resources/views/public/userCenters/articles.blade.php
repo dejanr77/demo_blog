@@ -41,7 +41,7 @@
                                                     published
                                                 </td>
                                             @else
-                                                @if($article->status)
+                                                @if($article->status_active)
                                                     <td class="status">
                                                         <a href="{{ route('public.article.status',['article' => $article->id, 'value' => 0]) }}" class="text-success article-opt"><i class="fa fa-check" aria-hidden="true"></i></a>
                                                     </td>
@@ -52,7 +52,7 @@
                                                 @endif
                                             @endif
 
-                                            @if($article->comments)
+                                            @if($article->status_comment)
                                                 <td class="comments" >
                                                     <a href="{{ route('public.article.comments',['article' => $article->id, 'value' => 0]) }}" class="text-success article-opt"><i class="fa fa-check" aria-hidden="true"></i></a>
                                                 </td>
@@ -63,8 +63,8 @@
                                             @endif
                                             <td>
                                                 <i class="fa fa-heart"></i> 6
-                                                <i class="fa fa-eye"></i> 21
-                                                <i class="fa fa-comments"></i> 3
+                                                <i class="fa fa-eye"></i> {{ $article->view_count }}
+                                                <i class="fa fa-comments"></i> {{ $article->comment_count }}
                                                 <i class="fa fa-calendar"></i> {{ $article->created_at->diffForHumans() }}
                                             </td>
                                             <td class="text-right">
