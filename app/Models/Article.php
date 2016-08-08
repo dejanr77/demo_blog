@@ -119,7 +119,7 @@ class Article extends Model
      */
     public function dislikes()
     {
-        return $this->morphMany('App\Models\Like', 'dislikeable');
+        return $this->morphMany('App\Models\Dislike', 'dislikeable');
     }
 
     /**

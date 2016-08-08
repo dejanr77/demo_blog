@@ -17,4 +17,13 @@ Route::get('article/{article}/comments',[
     'as' => 'article.comments'
 ]);
 
+Route::get('article/{article}/like',[
+    'uses' => 'ArticlesController@like',
+    'as' => 'article.like'
+]);
+
+Route::get('article/{article}/dislike',[
+    'uses' => 'ArticlesController@dislike',
+    'as' => 'article.dislike'
+]);
 

@@ -16,7 +16,7 @@ class Dislike extends Model
     ];
 
     /**
-     * Get all of the owning likeable models.
+     * Get all of the owning dislikeable models.
      */
     public function dislikeable()
     {

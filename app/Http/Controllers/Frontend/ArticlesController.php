@@ -59,6 +59,28 @@ class ArticlesController extends Controller
     }
 
     /**
+     * @param $id
+     * @param Request $request
+     * @param ArticleService $articleService
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
+    public function like($id, Request $request, ArticleService $articleService)
+    {
+        return $articleService->likeUpOrDown($id,$request);
+    }
+
+    /**
+     * @param $id
+     * @param Request $request
+     * @param ArticleService $articleService
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
+    public function dislike($id, Request $request, ArticleService $articleService)
+    {
+        return $articleService->dislikeUpOrDown($id,$request);
+    }
+
+    /**
      * Display a listing of the article.
      *
      * @param ArticleRepositoryInterface $articleRepository
