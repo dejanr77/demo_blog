@@ -113,6 +113,16 @@ class Article extends Model
     }
 
     /**
+     * Get all of the article's dislikes.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function dislikes()
+    {
+        return $this->morphMany('App\Models\Like', 'dislikeable');
+    }
+
+    /**
      * Get a list of tags associated with the current article.
      *
      * @return array

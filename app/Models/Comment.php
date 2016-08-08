@@ -45,4 +45,14 @@ class Comment extends Model
     {
         return $this->morphMany('App\Models\Like', 'likeable');
     }
+
+    /**
+     * Get all of the comment's dislikes.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function dislikes()
+    {
+        return $this->morphMany('App\Models\Like', 'likeable');
+    }
 }

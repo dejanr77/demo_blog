@@ -20,6 +20,7 @@ class CreateArticlesTable extends Migration
             $table->integer('view_count')->unsigned()->default(0);
             $table->integer('comment_count')->unsigned()->default(0);
             $table->integer('like_count')->unsigned()->default(0);
+            $table->integer('dislike_count')->unsigned()->default(0);
             $table->boolean('status_active')->default(false);
             $table->boolean('status_comment')->default(false);
             $table->boolean('is_published')->default(false);
