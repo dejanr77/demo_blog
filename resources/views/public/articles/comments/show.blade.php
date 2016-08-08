@@ -10,16 +10,24 @@
             </span>
         </div>
         <div class="comment_footer">
-            <span>
-                <a href="#" class="text-primary">
-                    <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> +12
-                </a>
-            </span>
-            <span>
-                <a href="#" class="text-danger">
-                    <i class="fa fa-thumbs-o-down" aria-hidden="true"></i> -3
-                </a>
-            </span>
+            <div class="comment_action">
+                <span>
+                    <a href="{{ route('public.comment.like',['comment' => $comment->id]) }}" data-type="like" class="text-primary" title="Like">
+                        <i class="fa fa-{{ auth()->user() && $comment->likes()->byUser(auth()->user()->id)->count() ? 'thumbs-up' : 'thumbs-o-up'}}"></i>
+                        <span>
+                            @if( $comment->like_count ){{ $comment->like_count }} @else 0 @endif
+                        </span>
+                    </a>
+                </span>
+                <span>
+                    <a href="{{ route('public.comment.dislike',['comment' => $comment->id]) }}" data-type="dislike" class="text-danger" title="Dislike">
+                        <i class="fa fa-{{ auth()->user() && $comment->dislikes()->byUser(auth()->user()->id)->count() ? 'thumbs-down' : 'thumbs-o-down'}}"></i>
+                        <span>
+                            @if( $comment->dislike_count ){{ $comment->dislike_count }} @else 0 @endif
+                        </span>
+                    </a>
+                </span>
+            </div>
         </div>
     </div>
 </div>

@@ -46,23 +46,23 @@
                     <div class="article_footer">
                         <div class="article_action">
                             <span>
-                            <a href="{{ route('public.article.like',['article' => $article->id]) }}" data-type="like" class="text-primary" title="Like">
-                                <i class="fa fa-{{ auth()->user() && $article->likes()->byUser(auth()->user()->id)->count() ? 'thumbs-up' : 'thumbs-o-up'}}"></i>
-                                <span>
-                                    {{ $article->like_count }}
-                                </span>
-                                likes
-                            </a>
-                        </span>
-                        <span>
-                            <a href="{{ route('public.article.dislike',['article' => $article->id]) }}" data-type="dislike" class="text-danger" title="Dislike">
-                                <i class="fa fa-{{ auth()->user() && $article->dislikes()->byUser(auth()->user()->id)->count() ? 'thumbs-down' : 'thumbs-o-down'}}"></i>
-                                <span>
-                                    {{ $article->dislike_count }}
-                                </span>
-                                dislikes
-                            </a>
-                        </span>
+                                <a href="{{ route('public.article.like',['article' => $article->id]) }}" data-type="like" class="text-primary" title="Like">
+                                    <i class="fa fa-{{ auth()->user() && $article->likes()->byUser(auth()->user()->id)->count() ? 'thumbs-up' : 'thumbs-o-up'}}"></i>
+                                    <span>
+                                        {{ $article->like_count }}
+                                    </span>
+                                    likes
+                                </a>
+                            </span>
+                            <span>
+                                <a href="{{ route('public.article.dislike',['article' => $article->id]) }}" data-type="dislike" class="text-danger" title="Dislike">
+                                    <i class="fa fa-{{ auth()->user() && $article->dislikes()->byUser(auth()->user()->id)->count() ? 'thumbs-down' : 'thumbs-o-down'}}"></i>
+                                    <span>
+                                        {{ $article->dislike_count }}
+                                    </span>
+                                    dislikes
+                                </a>
+                            </span>
                         </div>
                     </div>
                     @include('public.articles.partials.comments')
@@ -136,6 +136,19 @@
                     });
                 }
 
+            });
+
+            $( '.comment_action' ).on( 'click', 'a', function( e ){
+                e.preventDefault();
+
+                var self = $( this ),
+                        type = self.data( 'type' );
+
+                if( type === 'like' ){
+                    up_or_down( self , 'fa-thumbs-up', 'fa-thumbs-o-up' );
+                } else {
+                    up_or_down( self , 'fa-thumbs-down', 'fa-thumbs-o-down' );
+                }
 
             });
 
