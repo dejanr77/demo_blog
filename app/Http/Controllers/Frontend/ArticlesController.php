@@ -10,6 +10,7 @@ use App\Services\ArticleService;
 use App\User;
 
 use App\Http\Requests;
+use Auth;
 use Illuminate\Http\Request;
 
 class ArticlesController extends Controller
@@ -30,6 +31,8 @@ class ArticlesController extends Controller
         $this->middleware('auth', ['except' => ['index', 'show', 'user']]);
 
         $this->articleRepository = $articleRepository;
+
+        view()->share('currentUser', Auth::user());
     }
 
     /**

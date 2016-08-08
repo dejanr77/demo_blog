@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Models\UserActivity;
 use App\Repositories\Articles\ArticleRepositoryInterface;
 use App\User;
 use App\Http\Requests;

@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Requests\CommentRequest;
 use App\Models\Article;
 use App\Services\CommentService;
-use App\Services\UserActivityService;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Auth;
 use Illuminate\Http\Request;
 
 class CommentsController extends Controller
@@ -20,6 +20,8 @@ class CommentsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+
+        view()->share('currentUser', Auth::user());
     }
 
     /**

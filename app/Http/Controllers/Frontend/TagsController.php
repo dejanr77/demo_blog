@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Repositories\Tags\TagRepositoryInterface;
+use Auth;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -24,6 +24,8 @@ class TagsController extends Controller
     public function __construct(TagRepositoryInterface $tagRepository)
     {
         $this->tagRepository = $tagRepository;
+
+        view()->share('currentUser', Auth::user());
     }
 
     /**
