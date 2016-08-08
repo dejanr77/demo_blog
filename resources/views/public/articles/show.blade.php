@@ -138,7 +138,7 @@
 
             });
 
-            $( '.comment_action' ).on( 'click', 'a', function( e ){
+            $( '.comment_list' ).on( 'click', '.comment_action a', function( e ){
                 e.preventDefault();
 
                 var self = $( this ),
