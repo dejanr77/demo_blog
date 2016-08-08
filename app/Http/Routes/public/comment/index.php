@@ -5,3 +5,14 @@ Route::post('comment',[
     'as' => 'comment.store'
 ]);
 
+Route::get('comment/{comment}/like',[
+    'uses' => 'CommentsController@like',
+    'as' => 'comment.like'
+]);
+
+Route::get('comment/{comment}/dislike',[
+    'uses' => 'CommentsController@dislike',
+    'as' => 'comment.dislike'
+]);
+
+

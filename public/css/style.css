@@ -120,13 +120,16 @@
     overflow: hidden;
 }
 
-.comment_footer a {
+.comment_footer a,
+.article_footer a{
     text-decoration: none;
     padding-right: 15px;
 }
 
 .comment_footer a:hover,
-.comment_footer a:focus {
+.article_footer a:hover,
+.comment_footer a:focus,
+.article_footer a:focus {
     text-decoration: none;
 }
 .comment_user {

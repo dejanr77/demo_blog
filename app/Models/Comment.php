@@ -36,4 +36,23 @@ class Comment extends Model
         return $this->belongsTo('App\User');
     }
 
+    /**
+     * Get all of the comment's likes.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function likes()
+    {
+        return $this->morphMany('App\Models\Like', 'likeable');
+    }
+
+    /**
+     * Get all of the comment's dislikes.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function dislikes()
+    {
+        return $this->morphMany('App\Models\Dislike', 'dislikeable');
+    }
 }

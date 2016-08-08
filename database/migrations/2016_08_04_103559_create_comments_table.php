@@ -16,6 +16,8 @@ class CreateCommentsTable extends Migration
             $table->increments('id');
             $table->integer('article_id')->unsigned();
             $table->integer('user_id')->unsigned();
+            $table->integer('like_count')->unsigned()->default(0);
+            $table->integer('dislike_count')->unsigned()->default(0);
             $table->text('body');
             $table->timestamps();
 

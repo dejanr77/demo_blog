@@ -5,6 +5,9 @@ namespace App\Services;
 
 use App\Http\Requests\CommentRequest;
 use App\Models\Article;
+use App\Models\Comment;
+use App\User;
+use Illuminate\Http\Request;
 
 class CommentService
 {
@@ -68,4 +71,71 @@ class CommentService
         return response()->json(500);
     }
 
+    /**
+     * Change like value in DB.
+     *
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
+    public function likeUpOrDown($id, Request $request)
+    {
+        $comment = Comment::findOrFail($id);
+
+        $user = $request->user();
+
+        return $this->increaseOrDecreaseCount('like', $request, $comment, $user);
+    }
+
+    /**
+     * Change like value in DB.
+     *
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
+    public function dislikeUpOrDown($id, Request $request)
+    {
+        $comment = Comment::findOrFail($id);
+
+        $user = $request->user();
+
+        return $this->increaseOrDecreaseCount('dislike', $request, $comment, $user);
+    }
+
+    /**
+     * @param $type
+     * @param Request $request
+     * @param Comment $comment
+     * @param User $user
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
+    private function increaseOrDecreaseCount($type, Request $request,Comment $comment,User $user)
+    {
+        $article = $comment->article;
+
+        $column = $type.'_count';
+        $relation = $type.'s';
+        $model = $comment->$relation()->byUser($user->id)->first();
+
+        if ($model) {
+            $model->delete();
+            $comment->decrement($column);
+
+            if ($request->ajax() || $request->wantsJson())
+                return response()->json(['action' => 'down'], 200);
+        } else {
+            $comment->$relation()->create(['user_id' => $user->id]);
+            $comment->increment($column);
+
+            if ($request->ajax() || $request->wantsJson())
+                return response()->json(['action' => 'up'], 200);
+        }
+
+        if ($request->ajax() || $request->wantsJson())
+            return response()->json(500);
+
+
+        return redirect()->route('public.article.show', ['article' => $article->slug]);
+    }
 }

@@ -9,6 +9,7 @@ use App\Services\UserActivityService;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class CommentsController extends Controller
 {
@@ -40,6 +41,28 @@ class CommentsController extends Controller
         $commentService->createComment($article,$request);
 
         return redirect()->route('public.article.show',['article' => $article->slug,'#comment_area']);
+    }
+
+    /**
+     * @param $id
+     * @param Request $request
+     * @param CommentService $commentService
+     * @return mixed
+     */
+    public function like($id, Request $request, CommentService $commentService)
+    {
+        return $commentService->likeUpOrDown($id,$request);
+    }
+
+    /**
+     * @param $id
+     * @param Request $request
+     * @param CommentService $commentService
+     * @return mixed
+     */
+    public function dislike($id, Request $request, CommentService $commentService)
+    {
+        return $commentService->dislikeUpOrDown($id,$request);
     }
 }
 
