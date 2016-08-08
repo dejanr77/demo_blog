@@ -47,7 +47,7 @@
                         <div class="article_action">
                             <span>
                                 <a href="{{ route('public.article.like',['article' => $article->id]) }}" data-type="like" class="text-primary" title="Like">
-                                    <i class="fa fa-{{ auth()->user() && $article->likes()->byUser(auth()->user()->id)->count() ? 'thumbs-up' : 'thumbs-o-up'}}"></i>
+                                    <i class="fa fa-{{ $currentUser && $article->likes()->byUser($currentUser->id)->count() ? 'thumbs-up' : 'thumbs-o-up'}}"></i>
                                     <span>
                                         {{ $article->like_count }}
                                     </span>
@@ -56,7 +56,7 @@
                             </span>
                             <span>
                                 <a href="{{ route('public.article.dislike',['article' => $article->id]) }}" data-type="dislike" class="text-danger" title="Dislike">
-                                    <i class="fa fa-{{ auth()->user() && $article->dislikes()->byUser(auth()->user()->id)->count() ? 'thumbs-down' : 'thumbs-o-down'}}"></i>
+                                    <i class="fa fa-{{ $currentUser && $article->dislikes()->byUser($currentUser->id)->count() ? 'thumbs-down' : 'thumbs-o-down'}}"></i>
                                     <span>
                                         {{ $article->dislike_count }}
                                     </span>
@@ -138,7 +138,7 @@
 
             });
 
-            $( '.comment_action' ).on( 'click', 'a', function( e ){
+            $( '.comment_list' ).on( 'click', '.comment_action a', function( e ){
                 e.preventDefault();
 
                 var self = $( this ),

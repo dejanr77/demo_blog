@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Requests\ArticleRequest;
 use App\Http\Requests\DeleteArticleRequest;
-use App\Models\Article;
 use App\Repositories\Articles\ArticleRepositoryInterface;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Services\ArticleService;
+use Auth;
 
 class PreviewsController extends Controller
 {
@@ -26,6 +26,8 @@ class PreviewsController extends Controller
     public function __construct(ArticleRepositoryInterface $articleRepository)
     {
         $this->articleRepository = $articleRepository;
+
+        view()->share('currentUser', Auth::user());
     }
 
 
