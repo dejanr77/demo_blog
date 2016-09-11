@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Models\Acl\Permission;
+use App\Models\Acl\Role;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laracasts\Presenter\PresentableTrait;
 
@@ -100,8 +102,88 @@ class User extends Authenticatable
         return $this->hasOne('App\Models\Profile');
     }
 
+    /**
+     * Check, is it owner.
+     *
+     * @param $releted
+     * @return bool
+     */
     public function own($releted)
     {
         return $this->id === $releted->user_id;
+    }
+
+    /**
+     * Get all roles for the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    /**
+     * Checks does the user have role.
+     *
+     * @param $role
+     * @return bool
+     */
+    public function hasRole($role)
+    {
+        if (is_null($role)) {
+            return false;
+        }
+        if (is_string($role)) {
+            return $this->roles->contains('slug', $role);
+        }
+        return !! $role->intersect($this->roles)->count();
+    }
+
+    /**
+     * @param null $permission
+     * @return bool
+     */
+    public function userCan($permission = null)
+    {
+        return !is_null($permission) && $this->hasPermission($permission);
+    }
+
+    /**
+     * Checks does the user have permission.
+     *
+     * @param $permission
+     * @return bool
+     */
+    public function hasPermission($permission)
+    {
+        if (is_null($permission)) {
+            return false;
+        }
+        if (is_string($permission)) {
+            $permission = Permission::whereSlug($permission)->firstOrFail();
+        }
+        return $this->hasRole($permission->roles);
+    }
+
+    /**
+     * Assigns a new role.
+     *
+     * @param $role_id
+     * @return array
+     */
+    public function assignRole($role_id)
+    {
+        return $this->roles()->sync([$role_id]);
+    }
+
+    /**
+     * Checks is the user admin.
+     *
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        return $this->hasRole('admin');
     }
 }

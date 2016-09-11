@@ -34,6 +34,14 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies($gate);
 
-        //
+        if(\Schema::hasTable('permissions'))
+        {
+            $permissions = Permission::with('roles')->get();
+            foreach ($permissions as $permission) {
+                $gate->define($permission->slug, function($user) use ($permission) {
+                    return $user->hasPermission($permission);
+                });
+            }
+        }
     }
 }

@@ -19,4 +19,14 @@ class ArticlePresenter extends Presenter
     {
         return str_limit($this->title, 32);
     }
+
+    public function likesCount( $article, $currentUser)
+    {
+        return $article->likes()->byUser($currentUser->id)->count();
+    }
+
+    public function disLikesCount( $article, $currentUser)
+    {
+        return $article->dislikes()->byUser($currentUser->id)->count();
+    }
 }
