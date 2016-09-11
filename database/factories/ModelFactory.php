@@ -11,6 +11,7 @@
 |
 */
 
+use App\Models\Acl\Role;
 use App\Models\Article;
 use App\User;
 use Carbon\Carbon;
@@ -25,6 +26,12 @@ $factory->define(User::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(Article::class, function (Faker\Generator $faker) {
+
+    $user = factory(User::class)->create();
+
+    $role = Role::whereSlug('subscriber')->firstOrFail();
+    $user->assignRole($role->id);
+
     return [
         'user_id' => factory(User::class)->create()->id,
         'title' => $faker->sentence(8),
@@ -36,6 +43,8 @@ $factory->define(Article::class, function (Faker\Generator $faker) {
         'published_at' => Carbon::now()->subDays(6)->addDays($faker->numberBetween(0,12))
     ];
 });
+
+
 
 
 

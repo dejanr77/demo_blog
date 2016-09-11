@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\Acl\Role;
 use App\User;
 use Session;
 use Validator;
@@ -72,11 +73,16 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+
+        $role = Role::whereSlug('subscriber')->firstOrFail();
+        $user->assignRole($role->id);
+
+        return $user;
     }
 
     /**
