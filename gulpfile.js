@@ -42,6 +42,12 @@ elixir(function(mix) {
         '../../' + 'assets/css/style.css'
     ], 'public/css/demo_blog.css');
 
+    mix.styles([
+        '../../' + 'assets/css/app.css',
+        '../../' + 'assets/css/font-awesome.css',
+        '../../' + 'assets/css/dashboard.css'
+    ], 'public/css/dashboard.css');
+
 
     mix.scripts([
         '../../' + 'assets/js/jquery.js',
@@ -50,8 +56,17 @@ elixir(function(mix) {
     ], 'public/js/demo_blog.js');
 
 
+    mix.scripts([
+        '../../' + 'assets/js/jquery.js',
+        '../../' + 'assets/js/bootstrap.js',
+        '../../' + 'assets/js/dashboard.js'
+    ], 'public/js/dashboard.js');
+
+
     mix.version([
         'public/css/demo_blog.css',
-        'public/js/demo_blog.js'
+        'public/js/demo_blog.js',
+        'public/css/dashboard.css',
+        'public/js/dashboard.js'
     ]);
 });
