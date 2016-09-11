@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Acl\Permission;
 use App\Models\Article;
 use App\Models\Profile;
 use App\Policies\ArticlePolicy;
