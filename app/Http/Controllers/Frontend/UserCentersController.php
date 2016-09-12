@@ -22,7 +22,7 @@ class UserCentersController extends Controller
 
         $activities = $user->activities()->orderBy('created_at','dsc')->paginate(6);
 
-        return view('public.userCenters.show',compact('activities'));
+        return view('public.userCenters.show',compact('activities','user'));
     }
 
     public function articles(User $user, ArticleRepositoryInterface $articleRepository)
@@ -31,20 +31,20 @@ class UserCentersController extends Controller
 
         $articles = $articleRepository->allArticlesForUser($user,2);
 
-        return view('public.userCenters.articles',compact('articles'));
+        return view('public.userCenters.articles',compact('articles','user'));
     }
 
     public function images(User $user)
     {
         $this->authorize('self',$user);
 
-        return view('public.userCenters.images');
+        return view('public.userCenters.images',compact('user'));
     }
 
     public function files(User $user)
     {
         $this->authorize('self',$user);
 
-        return view('public.userCenters.files');
+        return view('public.userCenters.files',compact('user'));
     }
 }

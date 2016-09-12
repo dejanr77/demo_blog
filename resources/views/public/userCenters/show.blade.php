@@ -31,7 +31,7 @@
                                     @foreach($activities as $activity)
                                         <tr class="small">
                                             <td>
-                                                {{ $activity->content }}
+                                                {!! $activity->content !!}
                                             </td>
                                             <td class="text-right">
                                                 <i class="fa fa-calendar"></i> {{ $activity->updated_at->diffForHumans() }}

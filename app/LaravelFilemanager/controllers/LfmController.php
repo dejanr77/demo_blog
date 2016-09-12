@@ -135,7 +135,7 @@ class LfmController extends Controller {
 
     public function getUrl($type = null)
     {
-        $url = $this->dir_location;
+        $url = url('/').$this->dir_location;
 
         $url = $this->formatLocation($url, $type);
 

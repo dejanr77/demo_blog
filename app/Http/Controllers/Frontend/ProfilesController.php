@@ -57,7 +57,9 @@ class ProfilesController extends Controller
     {
         $this->authorize('edit',$profile);
 
-        return view('public.userCenters.profiles.edit',compact('profile'));
+        $user = $profile->user;
+
+        return view('public.userCenters.profiles.edit',compact('profile','user'));
     }
 
     /**

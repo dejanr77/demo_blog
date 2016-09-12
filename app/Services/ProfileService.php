@@ -40,7 +40,7 @@ class ProfileService
     {
         $profile = $this->profileRepository->createByUser('profile',$request->all());
 
-        $this->userActivity->log($request, $profile, 'Your profile was created');
+        $this->userActivity->log($request, $profile, '<i class="fa fa-user" aria-hidden="true"></i> Your profile was created');
 
         flash()->overlay('Profile has been successfully created.', 'Profile creating');
 
@@ -58,7 +58,7 @@ class ProfileService
     {
         $profile = $this->profileRepository->update($request->all(),$profile);
 
-        $this->userActivity->log($request, $profile, 'Your profile was updated');
+        $this->userActivity->log($request, $profile, '<i class="fa fa-user" aria-hidden="true"></i> Your profile was updated');
 
         flash()->overlay('Profile has been successfully updated.', 'Profile updating');
 

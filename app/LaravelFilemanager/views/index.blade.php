@@ -5,8 +5,8 @@
   <title>{{ Lang::get('laravel-filemanager::lfm.title-page') }}</title>
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="/vendor/laravel-filemanager/css/cropper.min.css">
-  <link rel="stylesheet" href="/vendor/laravel-filemanager/css/lfm.css">
+  <link rel="stylesheet" href="{{ url('vendor/laravel-filemanager/css/cropper.min.css') }}">
+  <link rel="stylesheet" href="{{ url('vendor/laravel-filemanager/css/lfm.css') }}">
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.css">
 </head>
 <body>
@@ -73,7 +73,7 @@
               <h4 class="modal-title" id="myModalLabel">{{ Lang::get('laravel-filemanager::lfm.title-upload') }}</h4>
             </div>
             <div class="modal-body">
-              <form action="{{url('/laravel-filemanager/upload')}}" role='form' id='uploadForm' name='uploadForm' method='post' enctype='multipart/form-data'>
+              <form action="{{url('laravel-filemanager/upload')}}" role='form' id='uploadForm' name='uploadForm' method='post' enctype='multipart/form-data'>
                 <div class="form-group" id="attachment">
                   <label for='upload' class='control-label'>{{ Lang::get('laravel-filemanager::lfm.message-choose') }}</label>
                   <div class="controls">
@@ -118,8 +118,8 @@
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.3.0/bootbox.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
-  <script src="/vendor/laravel-filemanager/js/cropper.min.js"></script>
-  <script src="/vendor/laravel-filemanager/js/jquery.form.min.js"></script>
+  <script src="{{ url('vendor/laravel-filemanager/js/cropper.min.js') }}"></script>
+  <script src="{{ url('vendor/laravel-filemanager/js/jquery.form.min.js') }}"></script>
   @include('laravel-filemanager::script')
 </body>
 </html>

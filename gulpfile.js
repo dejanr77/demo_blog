@@ -26,7 +26,7 @@ elixir(function(mix) {
 
     mix.copy(paths.font_awesome + 'css/font-awesome.css', 'resources/assets/css/font-awesome.css');
 
-    mix.copy('assets/js/article.js','public/js/article.js');
+    mix.copy('resources/assets/js/article.js','public/js/article.js');
 
     mix.copy(paths.jquery + 'jquery.js', 'resources/assets/js/jquery.js');
     mix.copy(paths.bootstrap + 'javascripts/bootstrap.js', 'resources/assets/js/bootstrap.js');

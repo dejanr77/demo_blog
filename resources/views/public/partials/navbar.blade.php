@@ -27,9 +27,6 @@
                 <li class="{{ set_active('about') }}">
                     <a  href="{{ route('public.about') }}">About</a>
                 </li>
-                <li class="{{ set_active('contact') }}">
-                    <a  href="{{ route('public.contact') }}">Contact</a>
-                </li>
                 <!-- Authentication Links -->
                 @if (Auth::guest())
                     <li><a href="{{ url('/login') }}">Login</a></li>
