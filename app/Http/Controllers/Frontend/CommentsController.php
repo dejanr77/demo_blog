@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Requests\CommentRequest;
 use App\Models\Article;
+use App\Models\Comment;
 use App\Services\CommentService;
 
 use App\Http\Requests;
@@ -19,8 +20,6 @@ class CommentsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
-
         view()->share('currentUser', Auth::user());
     }
 
@@ -66,6 +65,23 @@ class CommentsController extends Controller
     {
         return $commentService->dislikeUpOrDown($id,$request);
     }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function delete($id)
+    {
+        $comment = Comment::findOrFail($id);
+
+        $comment->delete();
+
+        return redirect()->back();
+    }
+
 }
 
 

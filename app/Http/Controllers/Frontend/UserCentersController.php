@@ -47,4 +47,15 @@ class UserCentersController extends Controller
 
         return view('public.userCenters.files',compact('user'));
     }
+
+    public function authorRequest()
+    {
+        $user = auth()->user();
+
+        $user->update([
+            'author_request' => 1
+        ]);
+        
+        return redirect()->route('public.userCenters.articles',['user' => $user->id]);
+    }
 }

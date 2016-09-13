@@ -13,4 +13,6 @@ Route::group([
         'uses' => 'DashboardController@index',
         'as' => 'dashboard.index'
     ]);
+
+    require (__DIR__ . '/article/index.php');
 });

@@ -35,6 +35,16 @@ interface RepositoryInterface
     public function with($relations);
 
     /**
+     * @return mixed
+     */
+    public function withTrashed();
+
+    /**
+     * @return mixed
+     */
+    public function onlyTrashed();
+
+    /**
      * @param $relationCount
      * @return mixed
      */
@@ -57,6 +67,11 @@ interface RepositoryInterface
      * @return mixed
      */
     public function getFirst($columns = ['*']);
+
+    /**
+     * @return mixed
+     */
+    public function restore();
 
     /**
      * @param int $perPage

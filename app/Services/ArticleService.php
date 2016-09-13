@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Http\Requests\ArticleRequest;
 use App\Models\Article;
+use App\Models\Notify;
 use App\Repositories\Articles\ArticleRepositoryInterface;
 use App\User;
 use Gate;
@@ -93,16 +93,16 @@ class ArticleService
     /**
      * Save a new article.
      *
-     * @param ArticleRequest $request
+     * @param Request $request
      * @return mixed
      */
-    public function createArticle(ArticleRequest $request)
+    public function createArticle(Request $request)
     {
         $tags = $this->ifItHasNewTagsCreate($request);
 
         $article = $this->articleRepository->createByUser('articles', $request->all());
 
-        $this->userActivity->log($request, $article, 'Article "' . $article->title . '" was created');
+        $this->userActivity->log($request, $article, '<i class="fa fa-plus-square-o" aria-hidden="true"></i> Article "'. $article->title . '</a>" was created');
 
         $this->syncTags($article, $tags);
 
@@ -114,11 +114,11 @@ class ArticleService
     /**
      * Update an article.
      *
-     * @param ArticleRequest $request
+     * @param Request $request
      * @param $article
      * @return mixed
      */
-    public function updateArticle(ArticleRequest $request, $article)
+    public function updateArticle(Request $request, $article)
     {
         $input = $request->all();
 
@@ -128,7 +128,7 @@ class ArticleService
 
         $article = $this->articleRepository->update($input, $article);
 
-        $this->userActivity->log($request, $article, 'Article "' . $article->title . '" was updated');
+        $this->userActivity->log($request, $article, '<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Article "' . $article->title . '</a>" was updated');
 
         $this->syncTags($article, $tags);
 
@@ -140,12 +140,12 @@ class ArticleService
     /**
      * Delete an article
      *
-     * @param ArticleRequest $request
+     * @param Request $request
      * @param $article
      */
-    public function deleteArticle(ArticleRequest $request, $article)
+    public function deleteArticle(Request $request, $article)
     {
-        $this->userActivity->log($request, $article, 'Article "' . $article->title . '" was deleted');
+        $this->userActivity->log($request, $article, '<i class="fa fa-ban" aria-hidden="true"></i> Article "' . $article->title . '" was deleted');
 
         flash()->overlay('Article "'.$article->title.'" has been successfully deleted.', 'Article deleting');
 
@@ -169,7 +169,7 @@ class ArticleService
                     'ip_address' => $request->ip()
                 ]);
 
-                $this->userActivity->log($request, $tag, 'Tag "' . $tag->name . '" was created');
+                $this->userActivity->log($request, $tag, '<i class="fa fa-tag" aria-hidden="true"></i> Tag "' . $tag->name . '" was created');
 
                 $tags[$ktag] = $tag->id;
             }
@@ -218,9 +218,11 @@ class ArticleService
      */
     private function increaseOrDecreaseCount($type, Request $request,Article $article,User $user)
     {
+        $type = strtolower(trim($type));
         $column = $type.'_count';
         $relation = $type.'s';
         $model = $article->$relation()->byUser($user->id)->first();
+        $icon = ( $type == 'like' ) ? 'fa fa-thumbs-o-up' : 'fa fa-thumbs-o-down';
 
         if ($model) {
             $model->delete();

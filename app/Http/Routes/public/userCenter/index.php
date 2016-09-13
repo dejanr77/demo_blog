@@ -20,4 +20,8 @@ Route::get('user/files/{user}', [
     'as' => 'userCenters.files'
 ]);
 
+Route::get('user/author',[
+    'uses' => 'UserCentersController@authorRequest',
+    'as' => 'userCenters.authorRequest'
+]);
 

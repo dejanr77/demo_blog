@@ -1,6 +1,10 @@
 @extends('layouts.public')
 
-@section('title','Edit article')
+@section('description','Edit article - '. $article->title. '.')
+
+@section('author','dejanr77')
+
+@section('title','edit article |'. $article->title)
 
 @section('style')
     @parent

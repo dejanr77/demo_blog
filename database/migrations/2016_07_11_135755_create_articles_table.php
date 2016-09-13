@@ -27,6 +27,7 @@ class CreateArticlesTable extends Migration
             $table->text('excerpt');
             $table->text('body');
             $table->timestamp('published_at')->nullable();
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('user_id')

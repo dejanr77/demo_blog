@@ -1,5 +1,9 @@
 @extends('layouts.public')
 
+@section('description','Home page')
+
+@section('author','dejanr77')
+
 @section('title','Home')
 
 @section('header')

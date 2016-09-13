@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Http\Requests\CommentRequest;
 use App\Models\Article;
 use App\Models\Comment;
+use App\Models\Notify;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -41,7 +42,7 @@ class CommentService
 
         $comment = $request->user()->comments()->create($request->all());
 
-        $this->userActivity->log($request,$comment,'The new comment has sent.');
+        $this->userActivity->log($request,$comment,'<i class="fa fa-comment-o" aria-hidden="true"></i> You are commented "'.$article->title.'" article.');
 
         return $comment;
     }

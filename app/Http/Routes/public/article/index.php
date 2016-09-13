@@ -7,6 +7,17 @@ Route::get('article/user/{name}',[
     'as' => 'article.user'
 ]);
 
+Route::get('article/{article}/preview',[
+    'uses' => 'ArticlesController@preview',
+    'as' => 'article.preview'
+]);
+
+Route::get('article/{article}/delete',[
+    'uses' => 'ArticlesController@delete',
+    'as' => 'article.delete'
+]);
+
+
 Route::get('article/{article}/status',[
     'uses' => 'ArticlesController@status',
     'as' => 'article.status'

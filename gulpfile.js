@@ -52,7 +52,8 @@ elixir(function(mix) {
     mix.scripts([
         '../../' + 'assets/js/jquery.js',
         '../../' + 'assets/js/bootstrap.js',
-        '../../' + 'assets/js/clean-blog.js'
+        '../../' + 'assets/js/clean-blog.js',
+        '../../' + 'assets/js/demo_blog.js'
     ], 'public/js/demo_blog.js');
 
 

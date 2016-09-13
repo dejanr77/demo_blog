@@ -39,6 +39,18 @@ abstract class Repository implements  RepositoryInterface
         return $this;
     }
 
+    public function withTrashed()
+    {
+        $this->model = $this->model->withTrashed();
+        return $this;
+    }
+
+    public function onlyTrashed()
+    {
+        $this->model = $this->model->onlyTrashed();
+        return $this;
+    }
+
     public function withCount($relationCount)
     {
         $this->model = $this->model->withCount($relationCount);
@@ -59,6 +71,11 @@ abstract class Repository implements  RepositoryInterface
     public function getFirst($columns = ['*'])
     {
         return $this->model->first($columns);
+    }
+
+    public function restore()
+    {
+        return $this->model->restore();
     }
 
     public function paginate($perPage = 25, $columns = ['*'], $pageName = 'page')

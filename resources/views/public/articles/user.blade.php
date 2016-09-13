@@ -1,5 +1,9 @@
 @extends('layouts.public')
 
+@section('description','Articles that written by '.$user->name)
+
+@section('author','dejanr77')
+
 @section('title','Articles that written by '.$user->name)
 
 @section('header')

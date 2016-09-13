@@ -58,13 +58,13 @@ class PreviewsController extends Controller
      */
     public function edit($id)
     {
-        $currentUser = request()->user();
+        $user = request()->user();
 
         $article = $this->articleRepository->first($id);
 
         $this->authorize('edit', $article);
 
-        return view('public.previews.edit', compact('article','currentUser'));
+        return view('public.previews.edit', compact('article','user'));
     }
 
     /**

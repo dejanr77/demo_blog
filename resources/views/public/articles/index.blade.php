@@ -1,6 +1,10 @@
 @extends('layouts.public')
 
-@section('title','Articles')
+@section('description','All articles published on demo_blog.rs.')
+
+@section('author','dejanr77')
+
+@section('title','articles')
 
 @section('header')
     <!-- Page Header -->

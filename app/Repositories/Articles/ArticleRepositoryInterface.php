@@ -7,6 +7,25 @@ use App\Repositories\RepositoryInterface;
 interface ArticleRepositoryInterface extends  RepositoryInterface
 {
     /**
+     * @param int $perPage
+     * @param array $columns
+     * @param string $pageName
+     * @return mixed
+     */
+    public function allArticles($perPage = 8, $columns = array('*'), $pageName = 'page');
+
+    /**
+     * @param string $title
+     * @param string $orderBy
+     * @param string $dir
+     * @param int $perPage
+     * @param array $columns
+     * @param string $pageName
+     * @return mixed
+     */
+    public function searchArticlesByTitle($title = '', $orderBy = 'created_at', $dir = 'dsc', $perPage = 8, $columns = array('*'), $pageName = 'page');
+
+    /**
      * @param Article $article
      * @param array $columns
      * @return mixed
@@ -43,6 +62,12 @@ interface ArticleRepositoryInterface extends  RepositoryInterface
      * @param $slug
      * @return mixed
      */
+    public function findArticleWithSlug($slug);
+
+    /**
+     * @param $slug
+     * @return mixed
+     */
     public function findPublishedArticleWithSlug($slug);
 
     /**
@@ -50,4 +75,10 @@ interface ArticleRepositoryInterface extends  RepositoryInterface
      * @return mixed
      */
     public function previewArticleWithSlug($slug);
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function previewArticle($id);
 }
