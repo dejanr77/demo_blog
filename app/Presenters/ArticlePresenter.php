@@ -15,9 +15,9 @@ class ArticlePresenter extends Presenter
         return $this->published_at->format('F j, Y');
     }
 
-    public function shortenTitle()
+    public function shortenTitle($limit = 32)
     {
-        return str_limit($this->title, 32);
+        return str_limit($this->title, $limit);
     }
 
     public function likesCount( $article, $currentUser)

@@ -39,7 +39,7 @@
                     <div class="comment_footer">
                         <div class="comment_action">
                             <span>
-                                <a href="{{ route('public.comment.like',['comment' => $comment->id]) }}" data-type="like" class="text-primary" title="Like">
+                                <a href="{{ route('public.comment.like',['comment' => $comment->id]) }}"  class="text-primary like" title="Like">
                                     <i class="fa fa-{{ $currentUser && $comment->likes()->byUser($currentUser->id)->count() ? 'thumbs-up' : 'thumbs-o-up'}}"></i>
                                     <span>
                                         {{ $comment->like_count }}
@@ -47,7 +47,7 @@
                                 </a>
                             </span>
                             <span>
-                                <a href="{{ route('public.comment.dislike',['comment' => $comment->id]) }}" data-type="dislike" class="text-danger" title="Dislike">
+                                <a href="{{ route('public.comment.dislike',['comment' => $comment->id]) }}"  class="text-danger dislike" title="Dislike">
                                     <i class="fa fa-{{ $currentUser && $comment->dislikes()->byUser($currentUser->id)->count() ? 'thumbs-down' : 'thumbs-o-down'}}"></i>
                                     <span>
                                         {{ $comment->dislike_count }}

@@ -1,8 +1,9 @@
 <script>
 var ds            = '/';
 var home_dir      = ds + "{{ (Config::get('lfm.allow_multi_user')) ? Auth::user()->user_field : '' }}";
-var image_url     = 'http://demo_blog.rs'+"{{ Config::get('lfm.images_url') }}";
-var file_url      = 'http://demo_blog.rs'+"{{ Config::get('lfm.files_url') }}";
+var url = "{{ url('/') }}";
+var image_url     = url + "{{ Config::get('lfm.images_url') }}";
+var file_url      = url + "{{ Config::get('lfm.files_url') }}";
 
 $(document).ready(function () {
   bootbox.setDefaults({locale:"{{ Lang::get('laravel-filemanager::lfm.locale-bootbox') }}"});
@@ -106,11 +107,11 @@ function loadFolders() {
   $.ajax({
     type: 'GET',
     dataType: 'html',
-    url: '/laravel-filemanager/folders',
+    url: url + '/laravel-filemanager/folders',
     data: {
-      working_dir: $('#working_dir').val(),
-      show_list: $('#show_list').val(),
-      type: $('#type').val()
+        working_dir: $('#working_dir').val(),
+        show_list: $('#show_list').val(),
+        type: $('#type').val()
     },
     cache: false
   }).done(function (data) {
@@ -120,12 +121,12 @@ function loadFolders() {
 
 function loadItems() {
   var working_dir = $('#working_dir').val();
-  console.log('Current working_dir : ' + working_dir);
+
 
   $.ajax({
     type: 'GET',
     dataType: 'html',
-    url: '/laravel-filemanager/jsonitems',
+    url: url + '/laravel-filemanager/jsonitems',
     data: {
       working_dir: working_dir,
       show_list: $('#show_list').val(),
@@ -144,7 +145,7 @@ function createFolder(folder_name) {
   $.ajax({
     type: 'GET',
     dataType: 'text',
-    url: '/laravel-filemanager/newfolder',
+    url: url + '/laravel-filemanager/newfolder',
     data: {
       name: folder_name,
       working_dir: $('#working_dir').val(),
@@ -171,7 +172,7 @@ function rename(item_name) {
         $.ajax({
           type: 'GET',
           dataType: 'text',
-          url: '/laravel-filemanager/rename',
+          url: url + '/laravel-filemanager/rename',
           data: {
             file: item_name,
             working_dir: $('#working_dir').val(),
@@ -198,7 +199,7 @@ function trash(item_name) {
       $.ajax({
         type: 'GET',
         dataType: 'text',
-        url: '/laravel-filemanager/delete',
+        url: url + '/laravel-filemanager/delete',
         data: {
           working_dir: $('#working_dir').val(),
           items: item_name,
@@ -223,7 +224,7 @@ function cropImage(image_name) {
   $.ajax({
     type: 'GET',
     dataType: 'text',
-    url: '/laravel-filemanager/crop',
+    url: url + '/laravel-filemanager/crop',
     data: {
       img: image_name,
       working_dir: $('#working_dir').val(),
@@ -240,7 +241,7 @@ function resizeImage(image_name) {
   $.ajax({
     type: 'GET',
     dataType: 'text',
-    url: '/laravel-filemanager/resize',
+    url: url + '/laravel-filemanager/resize',
     data: {
       img: image_name,
       working_dir: $('#working_dir').val(),
@@ -254,7 +255,7 @@ function resizeImage(image_name) {
 }
 
 function download(file_name) {
-  location.href = '/laravel-filemanager/download?'
+  location.href = url + '/laravel-filemanager/download?'
   + 'working_dir='
   + $('#working_dir').val()
   + '&type='
@@ -384,7 +385,7 @@ function notify(x) {
 }
 
 function fileView(x) {
-    console.log(image_url);
+
   var rnd = makeRandom();
   var img_src = image_url + $('#working_dir').val() + ds + x;
   var img = "<img class='img img-responsive center-block' src='" + img_src + "'>";

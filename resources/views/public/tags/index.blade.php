@@ -33,7 +33,9 @@
                         @endforeach
                     </div>
                 @else
-                    There are no tags.
+                    <div class="well">
+                        There are no tags.
+                    </div>
                 @endif
             </div>
         </div>

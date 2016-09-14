@@ -19,14 +19,8 @@
     @include('public.partials.footer')
 
     @section('footer')
-    <!-- jQuery -->
-    <script src="{{ url('js/jquery.js') }}"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="{{ url('js/bootstrap.min.js') }}"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="{{ url('js/clean-blog.min.js') }}"></script>
+    <script src="{{ url(elixir('js/demo_blog.js')) }}"></script>
 
     <script>
         $('#flash-overlay-modal').modal();

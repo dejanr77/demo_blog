@@ -6,6 +6,8 @@ namespace App\Services;
 use App\Http\Requests\CommentRequest;
 use App\Models\Article;
 use App\Models\Comment;
+use App\Models\Notify;
+use App\Repositories\Comments\CommentRepositoryInterface;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -16,15 +18,21 @@ class CommentService
      * @var UserActivityService
      */
     private $userActivity;
+    /**
+     * @var CommentRepositoryInterface
+     */
+    private $commentRepository;
 
     /**
      * Create a new authentication controller instance.
      *
      * @param UserActivityService $userActivity
+     * @param CommentRepositoryInterface $commentRepository
      */
-    public function __construct( UserActivityService $userActivity)
+    public function __construct( UserActivityService $userActivity, CommentRepositoryInterface $commentRepository)
     {
         $this->userActivity = $userActivity;
+        $this->commentRepository = $commentRepository;
     }
 
 
@@ -39,9 +47,11 @@ class CommentService
     {
         $article->increment('comment_count');
 
-        $comment = $request->user()->comments()->create($request->all());
+        $comment = $this->commentRepository->createByUser('comments',$request->all());
 
-        $this->userActivity->log($request,$comment,'The new comment has sent.');
+        $this->userActivity->log($request,$comment,'<i class="fa fa-comment-o" aria-hidden="true"></i> You are commented "'.$article->title.'" article.');
+
+        Notify::notify($comment->user_id, $article->user_id, $comment, '<i class="fa fa-comment-o" aria-hidden="true"></i> '. $comment->user->present()->publicFullName(). ' has commented your article ');
 
         return $comment;
     }
@@ -117,16 +127,22 @@ class CommentService
         $column = $type.'_count';
         $relation = $type.'s';
         $model = $comment->$relation()->byUser($user->id)->first();
+        $icon = ( $type == 'like' ) ? 'fa fa-thumbs-o-up' : 'fa fa-thumbs-o-down';
 
         if ($model) {
             $model->delete();
             $comment->decrement($column);
+
+            Notify::notify($user->id, $comment->user_id, $comment, '<i class="text-danger '. $icon .'" aria-hidden="true"></i>  '. $user->present()->publicFullName(). ' has no longer '.$type.'d your comment on article');
 
             if ($request->ajax() || $request->wantsJson())
                 return response()->json(['action' => 'down'], 200);
         } else {
             $comment->$relation()->create(['user_id' => $user->id]);
             $comment->increment($column);
+
+            Notify::notify($user->id, $comment->user_id, $comment, '<i class="text-primary '. $icon .'" aria-hidden="true"></i>  '. $user->present()->publicFullName(). ' has '.$type.'d your comment on article');
+
 
             if ($request->ajax() || $request->wantsJson())
                 return response()->json(['action' => 'up'], 200);
@@ -137,5 +153,48 @@ class CommentService
 
 
         return redirect()->route('public.article.show', ['article' => $article->slug]);
+    }
+
+    /**
+     * Delete an comment
+     *
+     * @param Request $request
+     * @param $id
+     * @return mixed
+     */
+    public function deleteComment(Request $request,$id)
+    {
+        $comment = $this->commentRepository->findComment($id);
+
+        $this->commentRepository->delete($comment);
+
+        $this->userActivity->log($request,$comment,'<i class="fa fa-comment-o" aria-hidden="true"></i> You are deleted comment.');
+
+        flash()->overlay('Comment has been successfully deleted.', 'Comment deleting');
+
+        $comment->delete();
+
+        return $comment;
+    }
+
+    /**
+     * Restore an comment
+     *
+     * @param Request $request
+     * @param $id
+     * @return mixed
+     */
+    public function restoreComment(Request $request, $id)
+    {
+        $comment = $this->commentRepository->findComment($id);
+
+        $comment->restore();
+
+        $this->userActivity->log($request,$comment,'<i class="fa fa-comment-o" aria-hidden="true"></i> You are restored comment.');
+
+        flash()->overlay('Comment has been successfully restored.', 'Comment restoring');
+
+        return $comment;
+
     }
 }

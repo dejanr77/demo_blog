@@ -27,9 +27,6 @@
                 <li class="{{ set_active('about') }}">
                     <a  href="{{ route('public.about') }}">About</a>
                 </li>
-                <li class="{{ set_active('contact') }}">
-                    <a  href="{{ route('public.contact') }}">Contact</a>
-                </li>
                 <!-- Authentication Links -->
                 @if (Auth::guest())
                     <li><a href="{{ url('/login') }}">Login</a></li>
@@ -40,9 +37,16 @@
                             {{ $currentUser->name }} <i class="fa fa-caret-down"></i>
                         </a>
                         <ul id="dropdown-user" class="dropdown-menu">
+                        @can('admin.access')
+                            <li>
+                                <a href="{{ route('admin.dashboard.index') }}"><i class="fa fa-dashboard"></i> Dashboard</a>
+                            </li>
+                        @endcan
+                        @can('article.create')
                             <li class="{{ set_active('article/create') }}">
                                 <a href="{{ route('public.article.create') }}"><i class="fa fa-plus-square-o fa-fw"></i> Add article</a>
                             </li>
+                        @endcan
                             <li>
                                 <a href="{{ route('public.userCenters.show',['user' => $currentUser->id]) }}"><i class="fa fa-user fa-fw"></i> User Centar</a>
                             </li>

@@ -10,9 +10,6 @@ Route::get('about',[
     'as' => 'about'
 ]);
 
-Route::get('contact',[
-    'uses' => 'PagesController@contact',
-    'as' => 'contact'
-]);
+
 
 

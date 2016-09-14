@@ -30,6 +30,20 @@ class ArticleRepository extends Repository implements  ArticleRepositoryInterfac
             ->get($columns);
     }
 
+    public function allArticles($perPage = 8, $columns = array('*'), $pageName = 'page')
+    {
+        return $this->orderBy('created_at','dsc')
+            ->paginate($perPage, $columns, $pageName);
+    }
+
+    public function searchArticlesByTitle($title = '', $orderBy = 'created_at', $dir = 'dsc',  $perPage = 8, $columns = array('*'), $pageName = 'page')
+    {
+            return $this->orderBy($orderBy, $dir)
+                ->where('%'.$title.'%','title', 'like')
+                ->paginate($perPage, $columns, $pageName);
+    }
+
+
 
     public function allPublishedArticles($perPage = 8, $columns = array('*'), $pageName = 'page')
     {
@@ -53,6 +67,12 @@ class ArticleRepository extends Repository implements  ArticleRepositoryInterfac
             ->paginate($perPage, $columns, $pageName);
     }
 
+    public function findArticleWithSlug($slug)
+    {
+        return $this->whereSlug($slug)
+            ->getFirst();
+    }
+
     public function findPublishedArticleWithSlug($slug)
     {
         return $this->whereSlug($slug)
@@ -63,6 +83,14 @@ class ArticleRepository extends Repository implements  ArticleRepositoryInterfac
     public function previewArticleWithSlug($slug)
     {
         return $this->whereSlug($slug)
+            ->withTrashed()
+            ->getFirst();
+    }
+
+    public function previewArticle($id)
+    {
+        return $this->where($id,'id')
+            ->withTrashed()
             ->getFirst();
     }
 }

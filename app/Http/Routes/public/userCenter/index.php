@@ -20,4 +20,18 @@ Route::get('user/files/{user}', [
     'as' => 'userCenters.files'
 ]);
 
+Route::get('user/notifications/{user}',[
+    'uses' => 'UserCentersController@notifications',
+    'as' => 'userCenters.notifications'
+]);
+
+Route::get('user/notifications/show/{notification}',[
+    'uses' => 'UserCentersController@showNotification',
+    'as' => 'userCenters.showNotification'
+]);
+
+Route::get('user/author',[
+    'uses' => 'UserCentersController@authorRequest',
+    'as' => 'userCenters.authorRequest'
+]);
 

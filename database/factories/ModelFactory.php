@@ -33,7 +33,7 @@ $factory->define(Article::class, function (Faker\Generator $faker) {
     $user->assignRole($role->id);
 
     return [
-        'user_id' => factory(User::class)->create()->id,
+        'user_id' => $user->id,
         'title' => $faker->sentence(8),
         'body' => $body = $faker->paragraph(6),
         'excerpt' => shortenText($body,16),

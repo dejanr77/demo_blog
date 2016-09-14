@@ -3,9 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Laracasts\Presenter\PresentableTrait;
 
 class Comment extends Model
 {
+    use PresentableTrait, SoftDeletes;
+
+    protected $presenter = 'App\Presenters\CommentPresenter';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -14,6 +20,15 @@ class Comment extends Model
     protected $fillable = [
         'article_id',
         'body'
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'deleted_at'
     ];
 
     /**

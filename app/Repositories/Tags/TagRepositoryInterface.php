@@ -15,6 +15,14 @@ interface TagRepositoryInterface extends RepositoryInterface
      */
     public function allTagsWithCount( $relationCount, $columns = array('*'));
 
+
+    /**
+     * @param $relationCount
+     * @param $prePage
+     * @return mixed
+     */
+    public function paginateTagsWithCount($relationCount,$prePage);
+
     /**
      * @param $slug
      * @return mixed

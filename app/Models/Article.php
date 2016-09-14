@@ -5,12 +5,12 @@ namespace App\Models;
 use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
 class Article extends Model
 {
-    use Sluggable;
-    use PresentableTrait;
+    use Sluggable, PresentableTrait, SoftDeletes;
 
     protected $presenter = 'App\Presenters\ArticlePresenter';
     /**
@@ -38,6 +38,7 @@ class Article extends Model
         'status_active',
         'status_comment',
         'body',
+        'is_published',
         'published_at'
     ];
 
@@ -47,7 +48,8 @@ class Article extends Model
      * @var array
      */
     protected $dates = [
-        'published_at'
+        'published_at',
+        'deleted_at'
     ];
 
     /**

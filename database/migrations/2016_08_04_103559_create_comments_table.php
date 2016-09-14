@@ -19,6 +19,7 @@ class CreateCommentsTable extends Migration
             $table->integer('like_count')->unsigned()->default(0);
             $table->integer('dislike_count')->unsigned()->default(0);
             $table->text('body');
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('article_id')

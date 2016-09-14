@@ -37,5 +37,10 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Repositories\Profiles\ProfileRepositoryInterface',
             'App\Repositories\Profiles\ProfileRepository'
         );
+
+        $this->app->bind(
+            'App\Repositories\Comments\CommentRepositoryInterface',
+            'App\Repositories\Comments\CommentRepository'
+        );
     }
 }

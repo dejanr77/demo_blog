@@ -1,5 +1,9 @@
 @extends('layouts.public')
 
+@section('description','Articles that written by '.$user->name)
+
+@section('author','dejanr77')
+
 @section('title','Articles that written by '.$user->name)
 
 @section('header')
@@ -32,7 +36,9 @@
                     @endforeach
                     @include('public.articles.partials.pagination')
                 @else
-                   There are no posts.
+                    <div class="well">
+                        There are no posts.
+                    </div>
                 @endif
             </div>
         </div>

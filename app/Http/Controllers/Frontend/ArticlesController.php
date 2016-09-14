@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ArticleRequest;
+use App\Http\Requests\DeleteArticleRequest;
 use App\Models\Article;
 use App\Repositories\Articles\ArticleRepositoryInterface;
 use App\Services\ArticleService;
@@ -29,6 +30,10 @@ class ArticlesController extends Controller
     public function __construct(ArticleRepositoryInterface $articleRepository)
     {
         $this->middleware('auth', ['except' => ['index', 'show', 'user']]);
+        $this->middleware('acl:article.create', ['only' => ['create','store']]);
+        $this->middleware('acl:article.update', ['only' => ['edit','update']]);
+        $this->middleware('acl:article.delete', ['only' => ['destroy']]);
+
 
         $this->articleRepository = $articleRepository;
 
@@ -145,7 +150,7 @@ class ArticlesController extends Controller
      */
     public function show($slug, ArticleRepositoryInterface $articleRepository)
     {
-        $article = $articleRepository->findPublishedArticleWithSlug($slug);
+        $article = $articleRepository->findArticleWithSlug($slug);
 
         $tag_list_with_count = $articleRepository->getTagsWitCount($article);
 
@@ -155,6 +160,26 @@ class ArticlesController extends Controller
 
         return view('public.articles.show', compact('article', 'tag_list_with_count', 'comments'));
     }
+
+    /**
+     * Preview the specified resource.
+     *
+     * @param $slug
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function preview($slug)
+    {
+        $article = $this->articleRepository->previewArticleWithSlug($slug);
+
+        $this->authorize('show',$article);
+
+        $tag_list_with_count = $this->articleRepository->getTagsWitCount($article);
+
+        $comments = $article->comments()->latest()->paginate(4);
+
+        return view('public.articles.preview', compact('article', 'tag_list_with_count', 'comments'));
+    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -203,6 +228,23 @@ class ArticlesController extends Controller
         return redirect()->route('public.article.index');
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @param DeleteArticleRequest $request
+     * @param ArticleService $articleService
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function delete($id, DeleteArticleRequest $request, ArticleService $articleService)
+    {
+        $article = $this->articleRepository->first($id);
 
+        $this->authorize('delete', $article);
+
+        $articleService->deleteArticle($request, $article);
+
+        return redirect()->route('public.userCenters.articles',['user' => $article->user_id]);
+    }
 
 }
