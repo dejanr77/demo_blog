@@ -21,9 +21,17 @@ class TagRepository extends  Repository implements TagRepositoryInterface
     {
         return $this
             ->withCount($relationCount)
+            ->orderBy('created_at','dsc')
             ->getAll($columns);
     }
 
+    public function paginateTagsWithCount($relationCount,$prePage)
+    {
+        return $this
+            ->withCount($relationCount)
+            ->orderBy('created_at','dsc')
+            ->paginate($prePage);
+    }
 
     public function findTagWithSlug($slug)
     {

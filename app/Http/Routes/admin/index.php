@@ -14,5 +14,7 @@ Route::group([
         'as' => 'dashboard.index'
     ]);
 
+    require (__DIR__ . '/tag/index.php');
+
     require (__DIR__ . '/article/index.php');
 });

@@ -32,7 +32,9 @@
                     @endforeach
                     @include('public.articles.partials.pagination')
                 @else
-                    There are no articles.
+                    <div class="well">
+                        There are no articles.
+                    </div>
                 @endif
             </div>
         </div>

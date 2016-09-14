@@ -33,6 +33,13 @@
                             <i class="fa fa-circle-o"></i> list of articles
                         </a>
                     </li>
+                    @can('tag.menage')
+                    <li class=" {{ set_active('admin/article/tag*') }}">
+                        <a href="{{ route('admin.article.tag.index') }}">
+                            <i class="fa fa-circle-o"></i> list of tags
+                        </a>
+                    </li>
+                    @endcan
                     @can('article.trash')
                     <li class=" {{ set_active('admin/trash') }}">
                         <a href="{{ route('admin.article.trash') }}">
