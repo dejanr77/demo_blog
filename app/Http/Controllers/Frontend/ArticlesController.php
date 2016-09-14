@@ -30,6 +30,10 @@ class ArticlesController extends Controller
     public function __construct(ArticleRepositoryInterface $articleRepository)
     {
         $this->middleware('auth', ['except' => ['index', 'show', 'user']]);
+        $this->middleware('acl:article.create', ['only' => ['create','store']]);
+        $this->middleware('acl:article.update', ['only' => ['edit','update']]);
+        $this->middleware('acl:article.delete', ['only' => ['destroy']]);
+
 
         $this->articleRepository = $articleRepository;
 

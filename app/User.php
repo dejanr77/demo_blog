@@ -4,6 +4,7 @@ namespace App;
 
 use App\Models\Acl\Permission;
 use App\Models\Acl\Role;
+use App\Models\Notify;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laracasts\Presenter\PresentableTrait;
 
@@ -90,6 +91,26 @@ class User extends Authenticatable
     public function activities()
     {
         return $this->hasMany('App\Models\UserActivity');
+    }
+
+    /**
+     * Get the notifications for user which is received
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function notifyTo()
+    {
+        return $this->hasMany(Notify::class,'to');
+    }
+
+    /**
+     * Get the notifications for user which is sent.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function notifyFrom()
+    {
+        return $this->hasMany(Notify::class,'from');
     }
 
     /**

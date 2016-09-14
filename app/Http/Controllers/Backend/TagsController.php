@@ -24,6 +24,8 @@ class TagsController extends Controller
 
         view()->share('currentUser', Auth::user());
 
+        view()->share('notifications_count',Auth::user()->notifyTo()->where('new','=',1)->count());
+
     }
 
     /**

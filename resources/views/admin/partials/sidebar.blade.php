@@ -68,6 +68,27 @@
                     @endcan
                 </ul>
             </li>
+            <li class="treeview {{ set_active('admin/notification*') }}">
+                <a href="#">
+                    <i class="fa fa-flag-o" aria-hidden="true"></i>
+                    <span>
+                        Notifications @if($notifications_count)<sup class="label label-danger">{{ $notifications_count }}</sup>@endif
+                    </span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li class=" {{ set_active('admin/notification') }}">
+                        <a href="{{ route('admin.notification.index') }}">
+                            <i class="fa fa-circle-o"></i> list of notifications @if($notifications_count)<sup class="label label-danger">{{ $notifications_count }}</sup>@endif
+                        </a>
+                    </li>
+                    <li class=" {{ set_active('admin/notification/create') }}">
+                        <a href="{{ route('admin.notification.create') }}">
+                            <i class="fa fa-circle-o"></i> create notification
+                        </a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </section>
 </aside><!-- ./main-sidebar -->

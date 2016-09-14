@@ -1,11 +1,11 @@
 <ul class="nav nav-tabs nav-justified">
     <li role="presentation" class="{{ set_active('user/home/*') }}">
-        <a href="{{ route('public.userCenters.show',['id' => $currentUser->id]) }}">
+        <a href="{{ route('public.userCenters.show',['id' => $user->id]) }}">
             <i class="fa fa-home" aria-hidden="true"></i> Home
         </a>
     </li>
     <li role="presentation" class="{{ set_active('user/articles/*') }}">
-        <a href="{{ route('public.userCenters.articles',['id' => $currentUser->id]) }}">
+        <a href="{{ route('public.userCenters.articles',['id' => $user->id]) }}">
             <i class="fa fa-th" aria-hidden="true"></i> Articles
         </a>
     </li>
@@ -21,4 +21,9 @@
         </a>
     </li>
     @endcan
+    <li role="presentation" class="{{ set_active('user/notifications/*') }}">
+        <a href="{{ route('public.userCenters.notifications',['id' => $user->id]) }}">
+            <i class="fa fa-flag-o" aria-hidden="true"></i> Notifications @if($notifications_count)<sup class="text-danger">( {{ $notifications_count }} )</sup>@endif
+        </a>
+    </li>
 </ul>

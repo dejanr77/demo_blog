@@ -228,12 +228,16 @@ class ArticleService
             $model->delete();
             $article->decrement($column);
 
+
+            Notify::notify($user->id, $article->user_id, $article, '<i class="text-danger '. $icon .'" aria-hidden="true"></i>  '. $user->present()->publicFullName(). ' has no longer '.$type.'d your article');
+
             if ($request->ajax() || $request->wantsJson())
                 return response()->json(['action' => 'down'], 200);
         } else {
             $article->$relation()->create(['user_id' => $user->id]);
             $article->increment($column);
 
+            Notify::notify($user->id, $article->user_id, $article, '<i class="text-primary '. $icon .'" aria-hidden="true"></i>  '. $user->present()->publicFullName(). ' has '.$type.'d your article');
             if ($request->ajax() || $request->wantsJson())
                 return response()->json(['action' => 'up'], 200);
         }

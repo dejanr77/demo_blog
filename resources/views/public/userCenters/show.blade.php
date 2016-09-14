@@ -48,7 +48,7 @@
                                 </table>
                             </div>
                         @else
-                            <p>
+                            <p class="well">
                                 Sorry, by now you have no activities.
                             </p>
                         @endif

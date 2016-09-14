@@ -8,10 +8,6 @@ use Auth;
 
 class PagesController extends Controller
 {
-    /**
-     * Create a new authentication controller instance.
-     *
-     */
     public function __construct()
     {
         view()->share('currentUser', Auth::user());

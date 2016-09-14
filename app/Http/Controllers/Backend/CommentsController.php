@@ -19,6 +19,8 @@ class CommentsController extends Controller
     public function __construct()
     {
         view()->share('currentUser', Auth::user());
+
+        view()->share('notifications_count',Auth::user()->notifyTo()->where('new','=',1)->count());
     }
 
     /**

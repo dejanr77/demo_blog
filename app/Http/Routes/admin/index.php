@@ -18,6 +18,7 @@ Route::group([
 
     require (__DIR__ . '/article/index.php');
 
-    require (__DIR__ . '/comment/index.php');
+    require (__DIR__ . '/notification/index.php');
 
+    require (__DIR__ . '/comment/index.php');
 });
