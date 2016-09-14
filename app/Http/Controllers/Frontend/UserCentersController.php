@@ -109,7 +109,7 @@ class UserCentersController extends Controller
             'author_request' => 1
         ]);
 
-        Notify::notify($user->id, 1, $user , '<i class="text-primary a fa-user-plus" aria-hidden="true"></i> User '. $user->name .' has sent a request to become an author ');
+        Notify::notify($user->id, 1, $user , '<i class="text-primary fa fa-user-plus" aria-hidden="true"></i> User '. $user->name .' has sent a request to become an <a href="'. route("admin.user.show",["user" => $user->id]).'">author</a> ');
 
         return redirect()->route('public.userCenters.articles',['user' => $user->id]);
     }

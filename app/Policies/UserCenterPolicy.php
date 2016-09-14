@@ -11,7 +11,7 @@ class UserCenterPolicy
 
     public function self(User $user, User $u)
     {
-        return $user->id === $u->id;
+        return $user->id === $u->id or $user->isAdmin();
     }
 
 }

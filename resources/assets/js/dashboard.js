@@ -173,11 +173,60 @@ $.Dashboard.tree = (function($, window, app, undefined){
 
 }(jQuery, window, $.Dashboard));
 
+
+/* Role()
+ * ======
+ *
+ * @type Function
+ * @Usage: $.Dashboard.role('#change_role')
+ */
+$.Dashboard.role = (function($, window, app, undefined){
+
+    function fetchJSON( url, data, type){
+        return $.ajax({
+            url: url,
+            data: data,
+            type: type,
+            dataType: 'json'
+        });
+    }
+
+
+    return function (form,modal) {
+        var $form = $(form),
+            $modal = $(modal);
+        $form.on('submit',function(e) {
+            var url = $form.attr('action'),
+                data = $form.serialize();
+
+            fetchJSON( url, data, 'post' )
+                .done( function( data ) {
+                    if(data.status === 'success'){
+                        $modal.on('show.bs.modal', function () {
+                            $(this).find('div.modal-body').html(data.message);
+                        });
+                        $modal.modal('toggle');
+                        $modal.off('show.bs.modal');
+                    }
+                })
+                .fail( function(data) {
+                    console.log(data);
+                });
+
+            e.preventDefault();
+        })
+    }
+
+
+
+}(jQuery, window, $.Dashboard));
+
 (function( $, window, document, app, undefined ) {
 
     app.setup();
     app.pushMenu(app.options.sidebarToggleSelector);
-    app.tree('.main-sidebar')
+    app.tree('.main-sidebar');
+    app.role('#change_role','#roleModal')
 
 })( jQuery, window, document, $.Dashboard);
 

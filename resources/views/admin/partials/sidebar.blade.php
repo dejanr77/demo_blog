@@ -89,6 +89,25 @@
                     </li>
                 </ul>
             </li>
+            @can('user.menage')
+            <li class="treeview {{ set_active('admin/user*') }}">
+                <a href="#">
+                    <i class="fa fa-users" aria-hidden="true"></i> <span>Users</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li class=" {{ set_active('admin/user') }}">
+                        <a href="{{ route('admin.user.index') }}">
+                            <i class="fa fa-circle-o"></i> list of users
+                        </a>
+                    </li>
+                    <li class=" {{ set_active('admin/user/roles') }}">
+                        <a href="{{ route('admin.user.roles') }}">
+                            <i class="fa fa-circle-o"></i> roles
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            @endcan
         </ul>
     </section>
 </aside><!-- ./main-sidebar -->

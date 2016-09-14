@@ -19,7 +19,11 @@
                     <hr/>
                     <p>
                         <span><b>Article: </b>{{ $comment->article->title }}</span><br/>
-                        <span><b>From </b>{{ $comment->user->name }}</span><br/>
+                        <span><b>From </b>
+                            <a href="{{ route('admin.user.show',['user' => $comment->user->id]) }}">
+                                {{ $comment->user->name }}
+                            </a>
+                        </span><br/>
                         <span><b>Published at </b>{{ $comment->created_at->diffForHumans() }}</span>
                     </p>
                     <p>

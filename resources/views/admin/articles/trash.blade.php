@@ -35,7 +35,7 @@
                                         <td>{{ $article->id }}</td>
                                         <td>{{ $article->present()->shortenTitle() }}</td>
                                         <td>
-                                            <a href="#">
+                                            <a href="{{ route('admin.user.show',['user' => $article->user->id]) }}">
                                                 {{ $article->user->name }}
                                             </a>
                                         </td>

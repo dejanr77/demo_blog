@@ -39,7 +39,7 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <a href="#">
+                                            <a href="{{ route('admin.user.show',['user' => $comment->user->id]) }}">
                                                 {{ $comment->user->name }}
                                             </a>
                                         </td>
