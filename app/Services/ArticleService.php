@@ -102,7 +102,9 @@ class ArticleService
 
         $article = $this->articleRepository->createByUser('articles', $request->all());
 
-        $this->userActivity->log($request, $article, '<i class="fa fa-plus-square-o" aria-hidden="true"></i> Article "'. $article->title . '</a>" was created');
+        $this->userActivity->log($request, $article, '<i class="fa fa-plus-square-o" aria-hidden="true"></i> Article "'. $article->title . '" was created');
+
+        Notify::notify($article->user_id, 1, $article , '<i class="fa fa-plus-square-o" aria-hidden="true"></i> Article <a href="'.route('admin.article.preview',['article' => $article->slug]).'">"'. $article->title .'"</a> has been created. ');
 
         $this->syncTags($article, $tags);
 
@@ -128,7 +130,9 @@ class ArticleService
 
         $article = $this->articleRepository->update($input, $article);
 
-        $this->userActivity->log($request, $article, '<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Article "' . $article->title . '</a>" was updated');
+        $this->userActivity->log($request, $article, '<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Article "' . $article->title . '" was updated');
+
+        Notify::notify($article->user_id, 1, $article , '<i class="fa fa-plus-square-o" aria-hidden="true"></i> Article <a href="'.route('admin.article.preview',['article' => $article->slug]).'">"'. $article->title .'"</a> has been updated. ');
 
         $this->syncTags($article, $tags);
 
